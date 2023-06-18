@@ -1,0 +1,25 @@
+Get All Ponds
+GET /Ponds
+
+Get Ponds by UserId
+GET /Ponds/<UserId>
+
+Get Ponds by PondId
+GET /Ponds/Pond/<PondId>
+
+Update Pond by Id
+PUT /Ponds/<PondId>
+
+Delete Pond by Id
+DELETE /Ponds/<PondId>
+
+Create new Pond
+POST /Ponds
+
+DROP TABLE IF EXISTS pond;
+CREATE TABLE pond (
+    id SERIAL PRIMARY KEY,
+    pond_id INT NOT NULL,
+    user_id INT NOT NULL,
+    pond_location VARCHAR NOT NULL
+);

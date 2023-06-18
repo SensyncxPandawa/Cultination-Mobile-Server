@@ -1,0 +1,13 @@
+# Common requirements used across local dev and production
+fastapi
+pydantic
+starlette
+sqladmin
+SQLAlchemy
+gunicorn
+uvicorn
+asyncpg
+pg8000
+cloud-sql-python-connector[asyncpg]
+cloud-sql-python-connector[pg8000]
+python-dotenv
