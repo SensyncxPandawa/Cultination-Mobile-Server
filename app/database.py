@@ -3,10 +3,10 @@ from sqlalchemy import create_engine, MetaData
 from sqlalchemy.orm import sessionmaker
 from google.cloud.sql.connector import Connector, IPTypes
 
-INSTANCE_CONNECTION_NAME = "bangkit-capstone-387911:asia-southeast2:cloud-sql-fastapi"
+INSTANCE_CONNECTION_NAME = "bertambak:asia-southeast2:bertambak-psql-server"
 DB_USER = "postgres"
-DB_PASS = "cloud-sql-fastapi-password-12345!"
-DB_NAME = "smart-vibration-monitoring"
+DB_PASS = "by0iqKCY?%>?ArsQ"
+DB_NAME = "bertambak"
 PRIVATE_IP = False
 
 # Set the environment variables
@@ -49,11 +49,13 @@ metadata.reflect(bind=engine)
 # Bind metadata objects of your models
 metadata.bind = engine
 metadata.reflect(bind=engine, only=[
-    "vibration_health",
-    "vibration",
+    "carts",
+    "categories",
+    "products",
+    "purchase_items",
+    "purchases",
     "users",
-    "pond",
-    "device",
+    "vendors",
 ])
 
 # Create the tables

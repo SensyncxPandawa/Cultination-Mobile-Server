@@ -1,51 +1,77 @@
-DROP TABLE IF EXISTS devices;
-DROP TABLE IF EXISTS device;
-CREATE TABLE device (
+DROP TABLE IF EXISTS carts;
+DROP TABLE IF EXISTS cart;
+CREATE TABLE carts (
     id SERIAL PRIMARY KEY,
-    device_id INT NOT NULL,
-    pond_id INT NOT NULL,
-    signal_strength INT NOT NULL,
-    battery_strength INT NOT NULL,
-    condition VARCHAR NOT NULL
+    cart_id VARCHAR(255),
+    product_id VARCHAR(255),
+    product_vendor_id VARCHAR(255),
+    user_id VARCHAR(255),
+    quantity INTEGER
 );
 
-DROP TABLE IF EXISTS ponds;
-DROP TABLE IF EXISTS pond;
-CREATE TABLE pond (
+DROP TABLE IF EXISTS products;
+DROP TABLE IF EXISTS product;
+CREATE TABLE products (
     id SERIAL PRIMARY KEY,
-    pond_id INT NOT NULL,
-    user_id INT NOT NULL,
-    pond_location VARCHAR NOT NULL
+    product_id VARCHAR(255),
+    vendor_id VARCHAR(255),
+    category_id VARCHAR(255),
+    product_name VARCHAR(255),
+    product_description TEXT,
+    product_images_path VARCHAR(255),
+    product_discount VARCHAR(255),
+    product_price VARCHAR(255),
+    product_stock VARCHAR(255)
 );
 
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS user;
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
-    user_id INT NOT NULL,
-    user_infos VARCHAR NOT NULL,
-    alarm_sound VARCHAR NOT NULL,
-    notification_sound VARCHAR NOT NULL,
-    contacts VARCHAR NOT NULL
+    user_id VARCHAR(255),
+    user_email VARCHAR(255),
+    user_password VARCHAR(255),
+    user_name VARCHAR(255),
+    user_contact VARCHAR(255),
+    user_address TEXT
 );
 
-DROP TABLE IF EXISTS vibrations;
-DROP TABLE IF EXISTS vibration;
-CREATE TABLE vibration (
+
+DROP TABLE IF EXISTS purchase_items;
+DROP TABLE IF EXISTS purchase_item;
+CREATE TABLE purchase_items (
     id SERIAL PRIMARY KEY,
-    timestamp TIMESTAMP NOT NULL,
-    device_id INT NOT NULL,
-    accx FLOAT NOT NULL,
-    accy FLOAT NOT NULL,
-    accz FLOAT NOT NULL
+    purchase_item_id VARCHAR(255),
+    purchase_id VARCHAR(255),
+    product_id VARCHAR(255),
+    quantity INTEGER
 );
 
-DROP TABLE IF EXISTS vibration_healths;
-DROP TABLE IF EXISTS vibration_health;
-CREATE TABLE vibration_health (
+DROP TABLE IF EXISTS vendors;
+DROP TABLE IF EXISTS vendor;
+CREATE TABLE vendors (
     id SERIAL PRIMARY KEY,
-    timestamp TIMESTAMPTZ NOT NULL,
-    device_id INT NOT NULL,
-    health_category VARCHAR NOT NULL,
-    health_score INT NOT NULL
+    vendor_id VARCHAR(255),
+    vendor_name VARCHAR(255),
+    vendor_contact VARCHAR(255),
+    vendor_address VARCHAR(255)
+);
+
+
+DROP TABLE IF EXISTS categories;
+DROP TABLE IF EXISTS category;
+CREATE TABLE categories (
+    id SERIAL PRIMARY KEY,
+    category_id VARCHAR(255),
+    category_name VARCHAR(255)
+);
+
+DROP TABLE IF EXISTS purchases;
+DROP TABLE IF EXISTS purchase;
+CREATE TABLE purchases (
+    id SERIAL PRIMARY KEY,
+    purchase_id VARCHAR(255),
+    total_amount VARCHAR(255),
+    purchase_date VARCHAR(255),
+    purchase_status VARCHAR(255)
 );
