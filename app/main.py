@@ -1,4 +1,5 @@
 from fastapi import Depends, FastAPI
+from sqlalchemy import text
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import OperationalError
 from starlette.responses import RedirectResponse
@@ -57,7 +58,7 @@ app = create_app()
 @app.get("/", tags=["Debug"], include_in_schema=False)
 def check_db_and_go_to_admin(db: Session = Depends(get_db)):
     try:
-        db.execute("SELECT 1")
+        db.execute(text("SELECT 1"))
         response_message = "Database is accessible"
         print(response_message)
         return RedirectResponse(url="/admin")
