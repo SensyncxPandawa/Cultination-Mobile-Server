@@ -4,22 +4,24 @@ from sqlalchemy.exc import OperationalError
 from starlette.responses import RedirectResponse
 from starlette.middleware.cors import CORSMiddleware
 
-from app.api.device_package.router import router as device_router
-from app.api.pond_package.router import router as pond_router
-from app.api.users_package.router import router as users_router
-from app.api.vibration_package.router import router as vibration_router
-from app.api.vibrationhealth_package.router import router as vibrationhealth_router
+from app.api.xcarts_package.router import router as xcarts_router
+from app.api.xcategories_package.router import router as xcategories_router
+from app.api.xvendors_package.router import router as xvendors_router
+from app.api.xusers_package.router import router as xusers_router
+from app.api.xpurchases_package.router import router as xpurchases_router
+from app.api.xpurchaseitems_package.router import router as xpurchaseitems_router
+from app.api.xproducts_package.router import router as xproducts_router
 
 from .database import get_db, engine
 from .sqladmin import create_admin
 
 description = """
-The Smart Vibration Monitoring System for Shrimp Paddle Wheel Aerator's API Server is a component of a larger system designed to monitor the vibrations of shrimp paddle wheel aerators. This API server provides a way to interact with the system programmatically.
+PandawaxSensync API Server is a component of a larger system designed to provide e-commerce services for aquaculture farmers. This API server provides a way to interact with the system programmatically.
 """
 
 def create_app():
     app = FastAPI(
-        title="The Smart Vibration Monitoring System API Server",
+        title="PandawaxSensync API Server",
         description=description,
         version="0.0.1",
         contact={
@@ -38,11 +40,13 @@ def create_app():
         allow_origins=['*'],
     )
 
-    app.include_router(device_router)
-    app.include_router(pond_router)
-    app.include_router(users_router)
-    app.include_router(vibration_router)
-    app.include_router(vibrationhealth_router)
+    app.include_router(xcarts_router)
+    app.include_router(xcategories_router)
+    app.include_router(xvendors_router)
+    app.include_router(xusers_router)
+    app.include_router(xpurchases_router)
+    app.include_router(xpurchaseitems_router)
+    app.include_router(xproducts_router)
 
     create_admin(app, engine)
 

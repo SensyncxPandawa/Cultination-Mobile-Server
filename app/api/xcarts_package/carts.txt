@@ -1,0 +1,17 @@
+Get All Carts
+GET /carts
+
+Get Carts by user_id
+GET /carts/user/<user_id>
+
+Get Carts by vendor_id
+GET /carts/vendor/<vendor_id>
+
+Create new Cart
+POST /carts
+
+Update Cart by cart_id
+PUT /carts/<cart_id>
+
+Delete Cart by cart_id
+DELETE /carts/<cart_id>

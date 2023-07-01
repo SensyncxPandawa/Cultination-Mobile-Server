@@ -4,8 +4,8 @@ from sqlalchemy.orm import sessionmaker
 from google.cloud.sql.connector import Connector, IPTypes
 
 INSTANCE_CONNECTION_NAME = "bertambak:asia-southeast2:bertambak-psql-server"
-DB_USER = "postgres"
-DB_PASS = "by0iqKCY?%>?ArsQ"
+DB_USER = "alembic"
+DB_PASS = "thisisalembic"
 DB_NAME = "bertambak"
 PRIVATE_IP = False
 

@@ -1,53 +1,74 @@
-from sqlalchemy import Column, DateTime, Integer, String, Float, Boolean, ForeignKey
+from sqlalchemy import Column, DateTime, Integer, String, Text, ForeignKey
 from sqlalchemy.orm import declarative_base
 
 Base = declarative_base()
 
-class Device(Base):
-    __tablename__ = 'device'
+class Cart(Base):
+    __tablename__ = 'carts'
 
     id = Column(Integer, primary_key=True, index=True, autoincrement=True)
-    device_id = Column(Integer, nullable=False)
-    pond_id = Column(Integer, ForeignKey('pond.pond_id'))
-    signal_strength = Column(Integer, nullable=False)
-    battery_strength = Column(Integer, nullable=False)
-    device_status = Column(Boolean, nullable=False)
-    monitor_status = Column(Boolean, nullable=False)
-    paddlewheel_condition = Column(String(30), nullable=False)
+    cart_id = Column(String(255), unique=True, nullable=False)
+    product_id = Column(String(255), ForeignKey('products.product_id'), nullable=False)
+    product_vendor_id = Column(String(255), ForeignKey('vendors.vendor_id'), nullable=False)
+    user_id = Column(String(255), ForeignKey('users.user_id'), nullable=False)
+    quantity = Column(Integer, nullable=False)
 
-class Pond(Base):
-    __tablename__ = 'pond'
+class Product(Base):
+    __tablename__ = 'products'
 
     id = Column(Integer, primary_key=True, index=True, autoincrement=True)
-    pond_id = Column(Integer, nullable=False)
-    user_id = Column(Integer, ForeignKey('users.user_id'), nullable=False)
-    pond_location = Column(String(120), nullable=False)
+    product_id = Column(String(255), unique=True, nullable=False)
+    vendor_id = Column(String(255), ForeignKey('vendors.vendor_id'), nullable=False)
+    category_id = Column(String(255), ForeignKey('categories.category_id'), nullable=False)
+    product_name = Column(String(255), nullable=False)
+    product_description = Column(Text, nullable=False)
+    product_images_path = Column(String(255), nullable=False)
+    product_discount = Column(String(255), nullable=False)
+    product_price = Column(String(255), nullable=False)
+    product_stock = Column(String(255), nullable=False)
 
-class Users(Base):
+class User(Base):
     __tablename__ = 'users'
 
     id = Column(Integer, primary_key=True, index=True, autoincrement=True)
-    user_id = Column(Integer, nullable=False)
-    user_infos = Column(String(30), nullable=False)
-    alarm_sound = Column(String(30), nullable=False)
-    notification_sound = Column(String(30), nullable=False)
-    contacts = Column(String(30), nullable=False)
+    user_id = Column(String(255), unique=True, nullable=False)
+    user_email = Column(String(255), nullable=False)
+    user_password = Column(String(255), nullable=False)
+    user_name = Column(String(255), nullable=False)
+    user_contact = Column(String(255), nullable=False)
+    user_address = Column(Text, nullable=False)
 
-class Vibration(Base):
-    __tablename__ = 'vibration'
-
-    id = Column(Integer, primary_key=True, index=True, autoincrement=True)
-    timestamp = Column(DateTime)
-    device_id = Column(Integer, ForeignKey('device.device_id'), nullable=False)
-    accx = Column(Float, nullable=False)
-    accy = Column(Float, nullable=False)
-    accz = Column(Float, nullable=False)
-
-class VibrationHealth(Base):
-    __tablename__ = 'vibration_health'
+class PurchaseItem(Base):
+    __tablename__ = 'purchase_items'
 
     id = Column(Integer, primary_key=True, index=True, autoincrement=True)
-    timestamp = Column(DateTime)
-    device_id = Column(Integer, ForeignKey('device.device_id'), nullable=False)
-    health_category = Column(String(30), nullable=False)
-    health_score = Column(Integer, nullable=False)
+    purchase_item_id = Column(String(255), unique=True, nullable=False)
+    purchase_id = Column(String(255), ForeignKey('purchases.purchase_id'), nullable=False)
+    product_id = Column(String(255), ForeignKey('products.product_id'), nullable=False)
+    quantity = Column(Integer, nullable=False)
+
+class Vendor(Base):
+    __tablename__ = 'vendors'
+
+    id = Column(Integer, primary_key=True, index=True, autoincrement=True)
+    vendor_id = Column(String(255), unique=True, nullable=False)
+    vendor_name = Column(String(255), nullable=False)
+    vendor_contact = Column(String(255), nullable=False)
+    vendor_address = Column(String(255), nullable=False)
+
+class Category(Base):
+    __tablename__ = 'categories'
+
+    id = Column(Integer, primary_key=True, index=True, autoincrement=True)
+    category_id = Column(String(255), unique=True, nullable=False)
+    category_name = Column(String(255), nullable=False)
+
+class Purchase(Base):
+    __tablename__ = 'purchases'
+
+    id = Column(Integer, primary_key=True, index=True, autoincrement=True)
+    purchase_id = Column(String(255), unique=True, nullable=False)
+    user_id = Column(String(255), ForeignKey('users.user_id'), nullable=False)
+    total_amount = Column(Integer, nullable=False)
+    purchase_date = Column(DateTime, nullable=False)
+    purchase_status = Column(String(255), nullable=False)
