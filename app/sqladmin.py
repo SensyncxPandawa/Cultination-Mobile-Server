@@ -1,76 +1,63 @@
 from sqladmin import Admin, ModelView
-from .sqladmin_models import Cart, Product, User, PurchaseItem, Purchase, Vendor, Category
+from .sqladmin_models import UsersAuth, Users2FA, UsersClass, UsersPondsAddress, UsersPrimaryAddress, UsersHarvestPlan, OverviewCommunityCache
 
 def create_admin(app, engine):
     admin = Admin(app, engine)
 
-    class CartAdmin(ModelView, model=Cart):
-        name = "Cart"
-        name_plural = "Carts"
-        icon = "fa fa-shopping-cart"
-        column_default_sort = [{'cart_id', True}, {'user_id', True}]
-        column_searchable_list = ['user_id']
-        column_sortable_list = ['cart_id', 'product_id', 'product_vendor_id', 'user_id', 'quantity']
-        column_list = ['cart_id', 'product_id', 'product_vendor_id', 'user_id', 'quantity']
+    class UsersAuthAdmin(ModelView, model=UsersAuth):
+        name = "Users ID"
+        name_plural = "Users ID"
+        icon = "fa fa-address-book"
+        column_searchable_list = ['user_fullname', 'user_email']
+        column_sortable_list = ['user_id', 'user_fullname', 'user_birthdate', 'user_phonenumber', 'user_email']
+        column_list = ['user_id', 'user_fullname', 'user_birthdate', 'user_phonenumber', 'user_email']
 
-    class ProductAdmin(ModelView, model=Product):
-        name = "Product"
-        name_plural = "Products"
-        icon = "fa fa-shopping-bag"
-        column_default_sort = [{'product_id', True}, {'vendor_id', True}]
-        column_searchable_list = ['product_name']
-        column_sortable_list = ['product_id', 'vendor_id', 'category_id', 'product_name', 'product_description', 'product_images_path', 'product_discount', 'product_price', 'product_stock']
-        column_list = ['product_id', 'vendor_id', 'category_id', 'product_name', 'product_description', 'product_images_path', 'product_discount', 'product_price', 'product_stock']
+    class Users2FAAdmin(ModelView, model=Users2FA):
+        name = "Users 2FA"
+        name_plural = "Users 2FAs"
+        icon = "fa fa-key"
+        column_sortable_list = ['user_id', 'ota_codes']
+        column_list = ['user_id', 'ota_codes']
 
-    class UserAdmin(ModelView, model=User):
-        name = "User"
-        name_plural = "Users"
-        icon = "fa-solid fa-user"
-        column_default_sort = [{'user_id', True}]
-        column_searchable_list = ['user_id', 'user_email', 'user_name']
-        column_sortable_list = ['user_id', 'user_email', 'user_password', 'user_name', 'user_contact', 'user_address']
-        column_list = ['user_id', 'user_email', 'user_password', 'user_name', 'user_contact', 'user_address']
+    class UsersClassAdmin(ModelView, model=UsersClass):
+        name = "Users Class"
+        name_plural = "Users Classes"
+        icon = "fa fa-trophy"
+        column_sortable_list = ['user_id', 'user_age', 'user_proficiency_level', 'user_pond_total', 'user_fish_type']
+        column_list = ['user_id', 'user_age', 'user_proficiency_level', 'user_pond_total', 'user_fish_type']
 
-    class PurchaseItemAdmin(ModelView, model=PurchaseItem):
-        name = "Purchase Item"
-        name_plural = "Purchase Items"
-        icon = "fa fa-cart-plus"
-        column_default_sort = [{'purchase_item_id', True}]
-        column_searchable_list = ['purchase_item_id']
-        column_sortable_list = ['purchase_item_id', 'purchase_id', 'product_id', 'quantity']
-        column_list = ['purchase_item_id', 'purchase_id', 'product_id', 'quantity']
+    class UsersPondsAddressAdmin(ModelView, model=UsersPondsAddress):
+        name = "Ponds Address"
+        name_plural = "Ponds Addresses"
+        icon = "fa fa-address-card"
+        column_sortable_list = ['pond_address_id', 'user_id', 'user_address_full', 'user_address_province', 'user_address_city']
+        column_list = ['pond_address_id', 'user_id', 'user_address_full', 'user_address_province', 'user_address_city']
 
-    class PurchaseAdmin(ModelView, model=Purchase):
-        name = "Purchase"
-        name_plural = "Purchases"
-        icon = "fa fa-cart-arrow-down"
-        column_default_sort = [{'purchase_id', True}]
-        column_searchable_list = ['purchase_id']
-        column_sortable_list = ['purchase_id', 'user_id', 'total_amount', 'purchase_date', 'purchase_status']
-        column_list = ['purchase_id', 'user_id', 'total_amount', 'purchase_date', 'purchase_status']
+    class UsersPrimaryAddressAdmin(ModelView, model=UsersPrimaryAddress):
+        name = "Primary Address"
+        name_plural = "Primary Addresses"
+        icon = "fa fa-id-card"
+        column_sortable_list = ['user_id', 'pond_address_id']
+        column_list = ['user_id', 'pond_address_id']
 
-    class VendorAdmin(ModelView, model=Vendor):
-        name = "Vendor"
-        name_plural = "Vendors"
-        icon = "fa fa-industry"
-        column_default_sort = [{'vendor_id', True}]
-        column_searchable_list = ['vendor_id']
-        column_sortable_list = ['vendor_id', 'vendor_name', 'vendor_contact', 'vendor_address']
-        column_list = ['vendor_id', 'vendor_name', 'vendor_contact', 'vendor_address']
+    class UsersHarvestPlanAdmin(ModelView, model=UsersHarvestPlan):
+        name = "Harvest Plan"
+        name_plural = "Harvest Plans"
+        icon = "fa fa-calendar"
+        column_sortable_list = ['harvest_plan_id', 'user_id', 'user_province', 'user_city', 'harvest_plan_start']
+        column_list = ['harvest_plan_id', 'user_id', 'user_province', 'user_city', 'harvest_plan_start']
 
-    class CategoryAdmin(ModelView, model=Category):
-        name = "Category"
-        name_plural = "Categories"
-        icon = "fa fa-tag"
-        column_default_sort = [{'category_id', True}]
-        column_searchable_list = ['category_name']
-        column_sortable_list = ['category_id', 'category_name']
-        column_list = ['category_id', 'category_name']
+    class OverviewCommunityCacheAdmin(ModelView, model=OverviewCommunityCache):
+        name = "Community"
+        name_plural = "Communities"
+        icon = "fa fa-globe"
+        column_sortable_list = ['community_id', 'community_province', 'community_city', 'community_month', 'community_fish_type']
+        column_list = ['community_id', 'community_province', 'community_city', 'community_month', 'community_fish_type']
 
-    admin.add_view(CartAdmin)
-    admin.add_view(ProductAdmin)
-    admin.add_view(UserAdmin)
-    admin.add_view(PurchaseItemAdmin)
-    admin.add_view(PurchaseAdmin)
-    admin.add_view(VendorAdmin)
-    admin.add_view(CategoryAdmin)
+    admin.add_view(UsersAuthAdmin)
+    admin.add_view(Users2FAAdmin)
+    admin.add_view(UsersClassAdmin)
+    admin.add_view(UsersPondsAddressAdmin)
+    admin.add_view(UsersPrimaryAddressAdmin)
+    admin.add_view(UsersHarvestPlanAdmin)
+    admin.add_view(OverviewCommunityCacheAdmin)

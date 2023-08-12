@@ -1,74 +1,82 @@
-from sqlalchemy import Column, DateTime, Integer, String, Text, ForeignKey
-from sqlalchemy.orm import declarative_base
+from sqlalchemy import Column, DateTime, Integer, String, ForeignKey
+from sqlalchemy.orm import declarative_base, relationship
 
 Base = declarative_base()
 
-class Cart(Base):
-    __tablename__ = 'carts'
+class UsersAuth(Base):
+    __tablename__ = 'users_auth'
+    user_id = Column(Integer, primary_key=True, index=True, autoincrement=True)
+    user_fullname = Column(String(255))
+    user_birthdate = Column(DateTime)
+    user_phonenumber = Column(String(20))
+    user_email = Column(String(255))
+    user_password = Column(String(255))
 
-    id = Column(Integer, primary_key=True, index=True, autoincrement=True)
-    cart_id = Column(String(255), unique=True, nullable=False)
-    product_id = Column(String(255), ForeignKey('products.product_id'), nullable=False)
-    product_vendor_id = Column(String(255), ForeignKey('vendors.vendor_id'), nullable=False)
-    user_id = Column(String(255), ForeignKey('users.user_id'), nullable=False)
-    quantity = Column(Integer, nullable=False)
+class Users2FA(Base):
+    __tablename__ = 'users_2fa'
+    user_id = Column(Integer, primary_key=True, index=True)
+    ota_codes = Column(String(6))
 
-class Product(Base):
-    __tablename__ = 'products'
+    user = relationship('UsersAuth', back_populates='users_2fa')
 
-    id = Column(Integer, primary_key=True, index=True, autoincrement=True)
-    product_id = Column(String(255), unique=True, nullable=False)
-    vendor_id = Column(String(255), ForeignKey('vendors.vendor_id'), nullable=False)
-    category_id = Column(String(255), ForeignKey('categories.category_id'), nullable=False)
-    product_name = Column(String(255), nullable=False)
-    product_description = Column(Text, nullable=False)
-    product_images_path = Column(String(255), nullable=False)
-    product_discount = Column(String(255), nullable=False)
-    product_price = Column(String(255), nullable=False)
-    product_stock = Column(String(255), nullable=False)
+class UsersClass(Base):
+    __tablename__ = 'users_class'
+    user_id = Column(Integer, primary_key=True, index=True)
+    user_age = Column(Integer)
+    user_proficiency_level = Column(String(50))
+    user_pond_total = Column(Integer)
+    user_pond_size_range = Column(String(50))
+    user_fish_type = Column(String(255))
+    user_fish_size_preference = Column(String(50))
 
-class User(Base):
-    __tablename__ = 'users'
+    user = relationship('UsersAuth', back_populates='users_class')
 
-    id = Column(Integer, primary_key=True, index=True, autoincrement=True)
-    user_id = Column(String(255), unique=True, nullable=False)
-    user_email = Column(String(255), nullable=False)
-    user_password = Column(String(255), nullable=False)
-    user_name = Column(String(255), nullable=False)
-    user_contact = Column(String(255), nullable=False)
-    user_address = Column(Text, nullable=False)
+class UsersPondsAddress(Base):
+    __tablename__ = 'users_ponds_address'
+    pond_address_id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey('users_auth.user_id'))
+    user_address_full = Column(String(255))
+    user_address_province = Column(String(255))
+    user_address_city = Column(String(255))
+    user_address_subdistrict = Column(String(255))
+    user_address_zipcode = Column(String(20))
+    user_address_coordinates = Column(String(100))
 
-class PurchaseItem(Base):
-    __tablename__ = 'purchase_items'
+    user = relationship('UsersAuth', back_populates='ponds_addresses')
 
-    id = Column(Integer, primary_key=True, index=True, autoincrement=True)
-    purchase_item_id = Column(String(255), unique=True, nullable=False)
-    purchase_id = Column(String(255), ForeignKey('purchases.purchase_id'), nullable=False)
-    product_id = Column(String(255), ForeignKey('products.product_id'), nullable=False)
-    quantity = Column(Integer, nullable=False)
+class UsersPrimaryAddress(Base):
+    __tablename__ = 'users_primary_address'
+    user_id = Column(Integer, ForeignKey('users_auth.user_id'), primary_key=True)
+    pond_address_id = Column(Integer, ForeignKey('users_ponds_address.pond_address_id'))
 
-class Vendor(Base):
-    __tablename__ = 'vendors'
+    user = relationship('UsersAuth', back_populates='primary_address')
+    pond_address = relationship('UsersPondsAddress', back_populates='primary_address')
 
-    id = Column(Integer, primary_key=True, index=True, autoincrement=True)
-    vendor_id = Column(String(255), unique=True, nullable=False)
-    vendor_name = Column(String(255), nullable=False)
-    vendor_contact = Column(String(255), nullable=False)
-    vendor_address = Column(String(255), nullable=False)
+class UsersHarvestPlan(Base):
+    __tablename__ = 'users_harvest_plan'
 
-class Category(Base):
-    __tablename__ = 'categories'
+    harvest_plan_id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, ForeignKey('users_auth.user_id'))
+    user_province = Column(String(255)),
+    user_city = Column(String(255)),
+    harvest_plan_start = Column(String(255))
+    harvest_plan_end = Column(String(255))
+    harvest_plan_dayofcultivation = Column(Integer)
+    harvest_plan_readyonmonth = Column(Integer)
+    harvest_plan_pond_total = Column(Integer)
+    harvest_plan_pond_size = Column(Integer)
+    harvest_plan_fish_type = Column(String(255))
+    harvest_plan_target_capacity = Column(String(255))
+    harvest_plan_target_size = Column(String(255))
+    harvest_plan_total_fish = Column(String(255))
 
-    id = Column(Integer, primary_key=True, index=True, autoincrement=True)
-    category_id = Column(String(255), unique=True, nullable=False)
-    category_name = Column(String(255), nullable=False)
+class OverviewCommunityCache(Base):
+    __tablename__ = 'overview_community_cache'
 
-class Purchase(Base):
-    __tablename__ = 'purchases'
-
-    id = Column(Integer, primary_key=True, index=True, autoincrement=True)
-    purchase_id = Column(String(255), unique=True, nullable=False)
-    user_id = Column(String(255), ForeignKey('users.user_id'), nullable=False)
-    total_amount = Column(Integer, nullable=False)
-    purchase_date = Column(DateTime, nullable=False)
-    purchase_status = Column(String(255), nullable=False)
+    community_id = Column(Integer, primary_key=True)
+    community_province = Column(String(255))
+    community_city = Column(String(255))
+    community_month = Column(String(255))
+    community_fish_type = Column(String(255))
+    community_production_total = Column(Integer)
+    community_user_total = Column(Integer)

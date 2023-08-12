@@ -1,45 +1,21 @@
 import os
 from sqlalchemy import create_engine, MetaData
 from sqlalchemy.orm import sessionmaker
-from google.cloud.sql.connector import Connector, IPTypes
 
-INSTANCE_CONNECTION_NAME = "bertambak:asia-southeast2:bertambak-psql-server"
 DB_USER = "alembic"
 DB_PASS = "thisisalembic"
 DB_NAME = "bertambak"
-PRIVATE_IP = False
 
 # Set the environment variables
-os.environ["PRIVATE_IP"] = str(PRIVATE_IP)
-os.environ["INSTANCE_CONNECTION_NAME"] = INSTANCE_CONNECTION_NAME
 os.environ["DB_USER"] = DB_USER
 os.environ["DB_PASS"] = DB_PASS
 os.environ["DB_NAME"] = DB_NAME
 
-# Cloud SQL Python Connector creator function
-def getconn():
-    # if env var PRIVATE_IP is set to True, use private IP Cloud SQL connections
-    ip_type = IPTypes.PRIVATE if os.getenv("PRIVATE_IP") == "True" else IPTypes.PUBLIC
-    # if env var DB_IAM_USER is set, use IAM database authentication
-    user, enable_iam_auth = (
-        (os.getenv("DB_IAM_USER"), True)
-        if os.getenv("DB_IAM_USER")
-        else (os.getenv("DB_USER"), False)
-    )
-    # initialize Cloud SQL Python connector object
-    with Connector(ip_type=ip_type, enable_iam_auth=enable_iam_auth) as connector:
-        conn = connector.connect(
-            os.getenv("INSTANCE_CONNECTION_NAME"),
-            "pg8000",
-            user=user,
-            password=os.getenv("DB_PASS", ""),
-            db=os.getenv("DB_NAME"),
-        )
-        return conn
+# Construct the SQLAlchemy connection URL for local PostgreSQL
+SQLALCHEMY_DATABASE_URL = f"postgresql://{DB_USER}:{DB_PASS}@localhost/{DB_NAME}"
 
-SQLALCHEMY_DATABASE_URL = "postgresql+pg8000://"
-
-engine = create_engine(SQLALCHEMY_DATABASE_URL, creator=getconn)
+# Create the SQLAlchemy engine and session
+engine = create_engine(SQLALCHEMY_DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 # Reflect existing tables (optional)
@@ -49,13 +25,13 @@ metadata.reflect(bind=engine)
 # Bind metadata objects of your models
 metadata.bind = engine
 metadata.reflect(bind=engine, only=[
-    "carts",
-    "categories",
-    "products",
-    "purchase_items",
-    "purchases",
-    "users",
-    "vendors",
+    "users_auth",
+    "users_2fa",
+    "users_class",
+    "users_ponds_address",
+    "users_primary_address",
+    "users_harvest_plan",
+    "overview_community_cache",
 ])
 
 # Create the tables
