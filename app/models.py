@@ -3,7 +3,7 @@ from sqlalchemy.orm import declarative_base, relationship
 
 Base = declarative_base()
 
-class Auth(Base):
+class UsersAuth(Base):
     __tablename__ = 'users_auth'
     user_id = Column(Integer, primary_key=True, index=True, autoincrement=True)
     user_fullname = Column(String(255))
@@ -12,14 +12,14 @@ class Auth(Base):
     user_email = Column(String(255))
     user_password = Column(String(255))
 
-class TwoFA(Base):
+class Users2FA(Base):
     __tablename__ = 'users_2fa'
     user_id = Column(Integer, primary_key=True, index=True)
     ota_codes = Column(String(6))
 
     user = relationship('UsersAuth', back_populates='users_2fa')
 
-class Class(Base):
+class UsersClass(Base):
     __tablename__ = 'users_class'
     user_id = Column(Integer, primary_key=True, index=True)
     user_age = Column(Integer)
@@ -31,7 +31,7 @@ class Class(Base):
 
     user = relationship('UsersAuth', back_populates='users_class')
 
-class Market(Base):
+class UsersMarket(Base):
     __tablename__ = 'users_market'
     user_id = Column(Integer, primary_key=True, index=True)
     user_production_capacity_n = Column(Integer)
@@ -44,7 +44,7 @@ class Market(Base):
 
     user = relationship('UsersAuth', back_populates='market')
 
-class Ponds(Base):
+class UsersPondsAddress(Base):
     __tablename__ = 'users_ponds_address'
     pond_address_id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey('users_auth.user_id'))
@@ -57,7 +57,7 @@ class Ponds(Base):
 
     user = relationship('UsersAuth', back_populates='ponds_addresses')
 
-class Primary(Base):
+class UsersPrimaryAddress(Base):
     __tablename__ = 'users_primary_address'
     user_id = Column(Integer, ForeignKey('users_auth.user_id'), primary_key=True)
     pond_address_id = Column(Integer, ForeignKey('users_ponds_address.pond_address_id'))
@@ -65,7 +65,7 @@ class Primary(Base):
     user = relationship('UsersAuth', back_populates='primary_address')
     pond_address = relationship('UsersPondsAddress', back_populates='primary_address')
 
-class Harvest(Base):
+class UsersHarvestPlan(Base):
     __tablename__ = 'users_harvest_plan'
 
     harvest_plan_id = Column(Integer, primary_key=True)
@@ -83,8 +83,8 @@ class Harvest(Base):
     harvest_plan_target_size = Column(String(255))
     harvest_plan_total_fish = Column(String(255))
 
-class Community(Base):
-    __tablename__ = 'overview_community_cache'
+class CommunityCache(Base):
+    __tablename__ = 'community_cache'
 
     community_id = Column(Integer, primary_key=True)
     community_province = Column(String(255))

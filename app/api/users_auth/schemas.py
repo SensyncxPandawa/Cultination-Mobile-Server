@@ -1,7 +1,7 @@
 from datetime import date
 from pydantic import BaseModel
 
-class Auth(BaseModel):
+class UsersAuth(BaseModel):
     user_id:int
     user_fullname: str
     user_birthdate: date

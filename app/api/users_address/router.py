@@ -1,10 +1,10 @@
 from fastapi import Depends, APIRouter, HTTPException
 from typing import List
 from sqlalchemy.orm import Session
-from .schemas import Ponds as PondsSchema
-from .schemas import Primary as PrimarySchema
-from app.models import Ponds as PondsModel
-from app.models import Primary as PrimaryModel
+from .schemas import UsersPondsAddress as PondsSchema
+from .schemas import UsersPrimaryAddress as PrimarySchema
+from app.models import UsersPondsAddress as PondsModel
+from app.models import UsersPrimaryAddress as PrimaryModel
 from app.database import get_db
 
 router = APIRouter()

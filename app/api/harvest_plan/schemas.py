@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 
-class Harvest(BaseModel):
+class UsersHarvestPlan(BaseModel):
     harvest_plan_id:int
     user_id:int
     user_province:int

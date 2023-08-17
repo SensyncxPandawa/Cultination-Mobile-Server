@@ -2,7 +2,7 @@ from pydantic import BaseModel
 
 # USER AGE IS AUTOMATICALLY CREATED FROM USER_BIRTHDATE (USER_AUTH) DATA
 
-class Class(BaseModel):
+class UsersClass(BaseModel):
     user_id:int
     user_age: int
     user_proficiency_level: str

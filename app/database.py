@@ -1,15 +1,14 @@
 import os
+from dotenv import load_dotenv
 from sqlalchemy import create_engine, MetaData
 from sqlalchemy.orm import sessionmaker
 
-DB_USER = "alembic"
-DB_PASS = "thisisalembic"
-DB_NAME = "bertambak"
+# Load environment variables from .env file
+load_dotenv()
 
-# Set the environment variables
-os.environ["DB_USER"] = DB_USER
-os.environ["DB_PASS"] = DB_PASS
-os.environ["DB_NAME"] = DB_NAME
+DB_USER = os.getenv('DB_USER')
+DB_PASS = os.getenv('DB_PASS')
+DB_NAME = os.getenv('DB_NAME')
 
 # Construct the SQLAlchemy connection URL for local PostgreSQL
 SQLALCHEMY_DATABASE_URL = f"postgresql://{DB_USER}:{DB_PASS}@localhost/{DB_NAME}"
@@ -31,7 +30,7 @@ metadata.reflect(bind=engine, only=[
     "users_ponds_address",
     "users_primary_address",
     "users_harvest_plan",
-    "overview_community_cache",
+    "community_cache",
 ])
 
 # Create the tables

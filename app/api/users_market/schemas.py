@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 
-class Market(BaseModel):
+class UsersMarket(BaseModel):
     user_id:int
     user_production_capacity_n:int
     user_production_capacity_unit: str

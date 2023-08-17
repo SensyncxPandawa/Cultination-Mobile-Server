@@ -1,13 +1,13 @@
 from pydantic import BaseModel
 
-class Primary(BaseModel):
+class UsersPrimaryAddress(BaseModel):
     user_id:int
     pond_address_id:int
 
     class Config:
         orm_mode = True
 
-class Ponds(BaseModel):
+class UsersPondsAddress(BaseModel):
     pond_address_id:int
     user_id:int
     user_address_full: str

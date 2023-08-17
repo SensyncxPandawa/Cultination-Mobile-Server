@@ -1,8 +1,8 @@
 from fastapi import Depends, APIRouter, HTTPException
 from typing import List
 from sqlalchemy.orm import Session
-from .schemas import Market as MarketSchema
-from app.models import Market as MarketModel
+from .schemas import UsersMarket as MarketSchema
+from app.models import UsersMarket as MarketModel
 from app.database import get_db
 
 router = APIRouter()

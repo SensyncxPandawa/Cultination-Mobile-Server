@@ -13,7 +13,7 @@ from app.api.harvest_plan.router import router as harvest_plan_router
 from app.api.community_cache.router import router as community_cache_router
 
 from .database import get_db, engine
-from .sqladmin import create_admin
+from .admin.sqladmin import create_admin
 
 description = """
 Cultination API Server is a component of a larger system designed to provide trading services for aquaculture farmers. This API server provides a way to interact with the system programmatically.

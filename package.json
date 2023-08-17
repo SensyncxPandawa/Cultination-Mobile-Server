@@ -1,27 +1,19 @@
 {
-  "name": "cloud-starterkit-fastapi-appengine",
+  "name": "cultination-backend-v2-trading",
   "version": "1.0.0",
-  "description": "Starter Kit for FastAPI on Google App Engine",
-  "directories": {
-    "test": "tests"
-  },
   "scripts": {
     "start": "uvicorn app.main:app --reload",
     "start:prod": "gunicorn --workers 1 --worker-class uvicorn.workers.UvicornWorker --bind :9000 app.main:app",
     "test": "pytest"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/kamalgill/cloud-starterkit-fastapi-appengine.git"
-  },
   "keywords": [
     "FastAPI",
     "Python"
   ],
-  "author": "Kamal Gill",
+  "author": "Yahya Aqrom",
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/kamalgill/cloud-starterkit-fastapi-appengine/issues"
+    "url": "https://github.com/SensyncxPandawa/Cultination-Backend-V2-Trading/issues"
   },
-  "homepage": "https://github.com/kamalgill/cloud-starterkit-fastapi-appengine#readme"
+  "homepage": "https://github.com/SensyncxPandawa/Cultination-Backend-V2-Trading#readme"
 }

@@ -1,8 +1,8 @@
 from fastapi import Depends, APIRouter, HTTPException
 from typing import List
 from sqlalchemy.orm import Session
-from .schemas import Harvest as HarvestSchema
-from app.models import Harvest as HarvestModel
+from .schemas import UsersHarvestPlan as HarvestSchema
+from app.models import UsersHarvestPlan as HarvestModel
 from app.database import get_db
 
 router = APIRouter()

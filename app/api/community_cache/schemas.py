@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 
-class Community(BaseModel):
+class CommunityCache(BaseModel):
     community_id: int
     community_province: str
     community_city: str
