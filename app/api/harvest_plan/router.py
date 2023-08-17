@@ -18,7 +18,7 @@ def display_all_existing_user_harvest_plan(user_id: int, db: Session = Depends(g
     return
 
 # UPDATE USER HARVEST PLAN
-@router.put("/users/market/{user_id}/{harvest_plan_id}", response_model=HarvestSchema, tags=["Users' Harvest Plan"])
+@router.put("/users/harvest_plan/{user_id}/{harvest_plan_id}", response_model=HarvestSchema, tags=["Users' Harvest Plan"])
 def update_existing_user_harvest_plan_by_harvest_plan_id(user_id: int, updated_user_market: HarvestSchema, db: Session = Depends(get_db)):
     return
 

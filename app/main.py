@@ -5,6 +5,13 @@ from sqlalchemy.exc import OperationalError
 from starlette.responses import RedirectResponse
 from starlette.middleware.cors import CORSMiddleware
 
+from app.api.users_auth.router import router as users_auth_router
+from app.api.users_class.router import router as users_class_router
+from app.api.users_market.router import router as users_market_router
+from app.api.users_address.router import router as users_address_router
+from app.api.harvest_plan.router import router as harvest_plan_router
+from app.api.community_cache.router import router as community_cache_router
+
 from .database import get_db, engine
 from .sqladmin import create_admin
 
@@ -32,6 +39,13 @@ def create_app():
         allow_methods=['*'],
         allow_origins=['*'],
     )
+
+    app.include_router(users_auth_router)
+    app.include_router(users_class_router)
+    app.include_router(users_market_router)
+    app.include_router(users_address_router)
+    app.include_router(harvest_plan_router)
+    app.include_router(community_cache_router)
 
     create_admin(app, engine)
 
