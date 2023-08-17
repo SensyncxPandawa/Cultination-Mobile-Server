@@ -8,26 +8,26 @@ from app.database import get_db
 router = APIRouter()
 
 # CREATE ALL USER DATA TABLE (NOT ONLY AUTH)
-@router.post("/users/auth/", response_model=List[AuthSchema], tags=["Users"])
+@router.post("/users/auth/", response_model=List[AuthSchema], tags=["Users' Address"])
 def create_user(user_auth: AuthSchema, db: Session = Depends(get_db)):
     return
 
 # VALIDATE LOGIN REQUEST
-@router.post("/users/auth/{user_id}", response_model=List[AuthSchema], tags=["Users"])
+@router.post("/users/auth/{user_id}", response_model=List[AuthSchema], tags=["Users' Address"])
 def validate_user_auth(user_auth: AuthSchema, db: Session = Depends(get_db)):
     return
 
 # DISPLAY USER AUTHENTIFICATION DATA
-@router.get("/users/auth/{user_id}", response_model=List[AuthSchema], tags=["Users"])
+@router.get("/users/auth/{user_id}", response_model=List[AuthSchema], tags=["Users' Address"])
 def display_existing_user_auth(user_id: int, db: Session = Depends(get_db)):
     return
 
 # EDIT USER AUTHENTIFICATION DATA
-@router.put("/users/auth/{user_id}", response_model=AuthSchema, tags=["Users"])
+@router.put("/users/auth/{user_id}", response_model=AuthSchema, tags=["Users' Address"])
 def update_user_auth_by_id(user_id: int, updated_user_auth: AuthSchema, db: Session = Depends(get_db)):
     return
 
 # DELETE ALL USER DATA TABLE (NOT ONLY AUTH)
-@router.delete("/users/auth/{user_id}", response_model=AuthSchema, tags=["Users"])
+@router.delete("/users/auth/{user_id}", response_model=AuthSchema, tags=["Users' Address"])
 def delete_user_by_id(user_id: int, db: Session = Depends(get_db)):
     return
