@@ -1,5 +1,5 @@
 from sqladmin import Admin, ModelView
-from .sqladmin_models import UsersAuth, Users2FA, UsersClass, UsersPondsAddress, UsersPrimaryAddress, UsersHarvestPlan, OverviewCommunityCache
+from .sqladmin_models import UsersAuth, Users2FA, UsersClass, UsersMarket, UsersPondsAddress, UsersPrimaryAddress, UsersHarvestPlan, OverviewCommunityCache
 
 def create_admin(app, engine):
     admin = Admin(app, engine)
@@ -25,6 +25,13 @@ def create_admin(app, engine):
         icon = "fa fa-trophy"
         column_sortable_list = ['user_id', 'user_age', 'user_proficiency_level', 'user_pond_total', 'user_fish_type']
         column_list = ['user_id', 'user_age', 'user_proficiency_level', 'user_pond_total', 'user_fish_type']
+
+    class UsersMarketAdmin(ModelView, model=UsersMarket):
+        name = "Users Market"
+        name_plural = "Users Markets"
+        icon = "fa fa-shopping-basket"
+        column_sortable_list = ['user_id', 'user_production_capacity_n', 'user_market_capacity_n', 'user_market_preference']
+        column_list = ['user_id', 'user_production_capacity_n', 'user_market_capacity_n', 'user_market_preference']
 
     class UsersPondsAddressAdmin(ModelView, model=UsersPondsAddress):
         name = "Ponds Address"
@@ -57,6 +64,7 @@ def create_admin(app, engine):
     admin.add_view(UsersAuthAdmin)
     admin.add_view(Users2FAAdmin)
     admin.add_view(UsersClassAdmin)
+    admin.add_view(UsersMarketAdmin)
     admin.add_view(UsersPondsAddressAdmin)
     admin.add_view(UsersPrimaryAddressAdmin)
     admin.add_view(UsersHarvestPlanAdmin)

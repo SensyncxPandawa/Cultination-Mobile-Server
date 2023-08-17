@@ -27,6 +27,17 @@ class UsersClass(Base):
     user_fish_type = Column(String(255))
     user_fish_size_preference = Column(String(50))
 
+class UsersMarket(Base):
+    __tablename__ = 'users_market'
+    user_id = Column(Integer, primary_key=True)
+    user_production_capacity_n = Column(Integer)
+    user_production_capacity_unit = Column(String(50))
+    user_production_capacity_cycle = Column(String(50))
+    user_market_capacity_n = Column(Integer)
+    user_market_capacity_unit = Column(String(50))
+    user_market_capacity_cycle = Column(String(50))
+    user_market_preference = Column(String(255))
+
 class UsersPondsAddress(Base):
     __tablename__ = 'users_ponds_address'
     pond_address_id = Column(Integer, primary_key=True)

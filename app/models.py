@@ -31,6 +31,19 @@ class UsersClass(Base):
 
     user = relationship('UsersAuth', back_populates='users_class')
 
+class UsersMarket(Base):
+    __tablename__ = 'users_market'
+    user_id = Column(Integer, primary_key=True, index=True)
+    user_production_capacity_n = Column(Integer)
+    user_production_capacity_unit = Column(String(50))
+    user_production_capacity_cycle = Column(String(50))
+    user_market_capacity_n = Column(Integer)
+    user_market_capacity_unit = Column(String(50))
+    user_market_capacity_cycle = Column(String(50))
+    user_market_preference = Column(String(255))
+
+    user = relationship('UsersAuth', back_populates='market')
+
 class UsersPondsAddress(Base):
     __tablename__ = 'users_ponds_address'
     pond_address_id = Column(Integer, primary_key=True, index=True)
