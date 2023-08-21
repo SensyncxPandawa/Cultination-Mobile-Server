@@ -8,20 +8,27 @@ class UsersAuth(Base):
     user_id = Column(Integer, primary_key=True, index=True, autoincrement=True)
     user_fullname = Column(String(255))
     user_birthdate = Column(DateTime)
-    user_phonenumber = Column(String(20))
+    user_phonenumber = Column(String(25))
     user_email = Column(String(255))
     user_password = Column(String(255))
 
+    users_2fa = relationship('Users2FA', back_populates='users_auth')
+    users_class = relationship('UsersClass', back_populates='users_auth')
+    users_market = relationship('UsersMarket', back_populates='users_auth')
+    users_ponds_address = relationship('UsersPondsAddress', back_populates='users_auth')
+    users_primary_address = relationship('UsersPrimaryAddress', back_populates='users_auth')
+    users_harvest_plan = relationship('UsersHarvestPlan', back_populates='users_auth')
+
 class Users2FA(Base):
     __tablename__ = 'users_2fa'
-    user_id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey('users_auth.user_id'), primary_key=True, index=True)
     ota_codes = Column(String(6))
 
-    user = relationship('UsersAuth', back_populates='users_2fa')
+    users_auth = relationship('UsersAuth', back_populates='users_2fa')
 
 class UsersClass(Base):
     __tablename__ = 'users_class'
-    user_id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey('users_auth.user_id'), primary_key=True, index=True)
     user_age = Column(Integer)
     user_proficiency_level = Column(String(50))
     user_pond_total = Column(Integer)
@@ -29,11 +36,11 @@ class UsersClass(Base):
     user_fish_type = Column(String(255))
     user_fish_size_preference = Column(String(50))
 
-    user = relationship('UsersAuth', back_populates='users_class')
+    users_auth = relationship('UsersAuth', back_populates='users_class')
 
 class UsersMarket(Base):
     __tablename__ = 'users_market'
-    user_id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey('users_auth.user_id'), primary_key=True, index=True)
     user_production_capacity_n = Column(Integer)
     user_production_capacity_unit = Column(String(50))
     user_production_capacity_cycle = Column(String(50))
@@ -42,7 +49,7 @@ class UsersMarket(Base):
     user_market_capacity_cycle = Column(String(50))
     user_market_preference = Column(String(255))
 
-    user = relationship('UsersAuth', back_populates='market')
+    users_auth = relationship('UsersAuth', back_populates='users_market')
 
 class UsersPondsAddress(Base):
     __tablename__ = 'users_ponds_address'
@@ -55,15 +62,16 @@ class UsersPondsAddress(Base):
     user_address_zipcode = Column(String(20))
     user_address_coordinates = Column(String(100))
 
-    user = relationship('UsersAuth', back_populates='ponds_addresses')
+    users_auth = relationship('UsersAuth', back_populates='users_ponds_address')
+    users_primary_address = relationship('UsersPrimaryAddress', back_populates='users_ponds_address')
 
 class UsersPrimaryAddress(Base):
     __tablename__ = 'users_primary_address'
     user_id = Column(Integer, ForeignKey('users_auth.user_id'), primary_key=True)
     pond_address_id = Column(Integer, ForeignKey('users_ponds_address.pond_address_id'))
 
-    user = relationship('UsersAuth', back_populates='primary_address')
-    pond_address = relationship('UsersPondsAddress', back_populates='primary_address')
+    users_auth = relationship('UsersAuth', back_populates='users_primary_address')
+    users_ponds_address = relationship('UsersPondsAddress', back_populates='users_primary_address')
 
 class UsersHarvestPlan(Base):
     __tablename__ = 'users_harvest_plan'
@@ -82,6 +90,8 @@ class UsersHarvestPlan(Base):
     harvest_plan_target_capacity = Column(String(255))
     harvest_plan_target_size = Column(String(255))
     harvest_plan_total_fish = Column(String(255))
+    
+    users_auth = relationship('UsersAuth', back_populates='users_harvest_plan')
 
 class CommunityCache(Base):
     __tablename__ = 'community_cache'

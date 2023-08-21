@@ -8,7 +8,7 @@ class UsersAuth(Base):
     user_id = Column(Integer, primary_key=True, index=True, autoincrement=True)
     user_fullname = Column(String(255))
     user_birthdate = Column(DateTime)
-    user_phonenumber = Column(String(20))
+    user_phonenumber = Column(String(25))
     user_email = Column(String(255))
     user_password = Column(String(255))
 

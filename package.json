@@ -1,6 +1,7 @@
 {
   "name": "cultination-backend-v2-trading",
   "version": "1.0.0",
+  "description": "Cultination Backend V2 (Trading) is a component of a larger system designed to provide trading services for aquaculture farmers. This API server provides a way to interact with the system programmatically.",
   "scripts": {
     "start": "uvicorn app.main:app --reload",
     "start:prod": "gunicorn --workers 1 --worker-class uvicorn.workers.UvicornWorker --bind :9000 app.main:app",
