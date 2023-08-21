@@ -1,4 +1,5 @@
 from fastapi import Depends, APIRouter
+from typing import List
 from sqlalchemy.orm import Session
 from . import services
 from .schemas import UsersPondsAddress as PondsSchema
@@ -21,7 +22,7 @@ def display_existing_user_primary_address(user_id: int, db: Session = Depends(ge
     return services.display_existing_user_primary_address(db, user_id)
 
 # DISPLAY ALL USER POND ADDRESSES
-@router.get("/users/{user_id}/address/pond_address", response_model=PondsSchema, tags=["Users' Address"])
+@router.get("/users/{user_id}/address/pond_address", response_model=List[PondsSchema], tags=["Users' Address"])
 def display_all_existing_user_pond_address(user_id: int, db: Session = Depends(get_db)):
     return services.display_all_existing_user_pond_address(db, user_id)
 
