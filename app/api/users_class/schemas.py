@@ -1,15 +1,17 @@
-from pydantic import BaseModel
+from typing import Optional
+from pydantic import BaseModel, Extra, constr
 
 # USER AGE IS AUTOMATICALLY CREATED FROM USER_BIRTHDATE (USER_AUTH) DATA
 
 class UsersClass(BaseModel):
-    user_id:int
-    user_age: int
-    user_proficiency_level: str
-    user_pond_total: int
-    user_pond_size_range: str
-    user_fish_type: str
-    user_fish_size_preference: str
+    user_id: Optional[int] = None
+    user_age: Optional[int] = None
+    user_proficiency_level: Optional[constr(max_length=50)] = None
+    user_pond_total: Optional[int] = None
+    user_pond_size_range: Optional[constr(max_length=50)] = None
+    user_fish_type: Optional[constr(max_length=50)] = None
+    user_fish_size_preference: Optional[constr(max_length=50)] = None
 
     class Config:
         orm_mode = True
+        extra = Extra.forbid
