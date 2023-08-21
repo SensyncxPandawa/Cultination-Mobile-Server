@@ -1,20 +1,22 @@
-from pydantic import BaseModel
+from typing import Optional
+from pydantic import BaseModel, Extra, constr
 
 class UsersHarvestPlan(BaseModel):
-    harvest_plan_id:int
-    user_id:int
-    user_province:int
-    user_city: str
-    harvest_plan_start: str
-    harvest_plan_end: str
-    harvest_plan_dayofcultivation: int
-    harvest_plan_readyonmonth: int
-    harvest_plan_pond_total: int
-    harvest_plan_pond_size: int
-    harvest_plan_fish_type: str
-    harvest_plan_target_capacity: str
-    harvest_plan_target_size: str
-    harvest_plan_total_fish: str
+    harvest_plan_id: Optional[int] = None
+    user_id: Optional[int] = None
+    user_province: Optional[int] = None
+    user_city: Optional[constr(max_length=255)] = None
+    harvest_plan_start: Optional[constr(max_length=255)] = None
+    harvest_plan_end: Optional[constr(max_length=255)] = None
+    harvest_plan_dayofcultivation:  Optional[int] = None
+    harvest_plan_readyonmonth:  Optional[int] = None
+    harvest_plan_pond_total:  Optional[int] = None
+    harvest_plan_pond_size:  Optional[int] = None
+    harvest_plan_fish_type: Optional[constr(max_length=255)] = None
+    harvest_plan_target_capacity: Optional[constr(max_length=255)] = None
+    harvest_plan_target_size: Optional[constr(max_length=255)] = None
+    harvest_plan_total_fish: Optional[constr(max_length=255)] = None
 
     class Config:
         orm_mode = True
+        extra = Extra.forbid
