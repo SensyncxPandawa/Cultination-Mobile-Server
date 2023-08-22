@@ -24,13 +24,14 @@ metadata.reflect(bind=engine)
 # Bind metadata objects of your models
 metadata.bind = engine
 metadata.reflect(bind=engine, only=[
-    "users_auth",
+    "community_cache",
     "users_2fa",
+    "users_auth",
     "users_class",
+    "users_harvest_plan",
+    "users_market",
     "users_ponds_address",
     "users_primary_address",
-    "users_harvest_plan",
-    "community_cache",
 ])
 
 # Create the tables
