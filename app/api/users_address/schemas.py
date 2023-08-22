@@ -6,7 +6,7 @@ class UsersPrimaryAddress(BaseModel):
     pond_address_id: Optional[int] = None
 
     class Config:
-        orm_mode = True
+        from_attributes = True
         extra = Extra.forbid
 
 class UsersPondsAddress(BaseModel):
@@ -20,5 +20,5 @@ class UsersPondsAddress(BaseModel):
     user_address_coordinates: Optional[constr(max_length=100)] = None
 
     class Config:
-        orm_mode = True
+        from_attributes = True
         extra = Extra.forbid

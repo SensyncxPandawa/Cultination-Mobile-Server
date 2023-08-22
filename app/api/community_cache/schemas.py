@@ -11,5 +11,5 @@ class CommunityCache(BaseModel):
     community_user_total: Optional[int] = None
 
     class Config:
-        orm_mode = True
+        from_attributes = True
         extra = Extra.forbid

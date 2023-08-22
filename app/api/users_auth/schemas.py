@@ -12,7 +12,7 @@ class UsersAuth(BaseModel):
     user_password: Optional[constr(max_length=255)] = None
 
     class Config:
-        orm_mode = True
+        from_attributes = True
         extra = Extra.forbid
 
 class UsersValidationAuth(BaseModel):

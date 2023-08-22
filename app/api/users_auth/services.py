@@ -91,7 +91,4 @@ def delete_user_by_id(db: Session, user_id: int):
     db.delete(user)
     db.commit()
 
-
-    db.commit()
-
     return {"message": "User data and related records deleted successfully"}

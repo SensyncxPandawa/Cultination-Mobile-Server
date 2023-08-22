@@ -17,13 +17,6 @@ def create_user(user_auth: UsersAuth, db: Session = Depends(get_db)):
     """
     The code creates a new user's authentication data and related information in a database, checking if the user already exists based on the provided user_id.
     If not, it adds records to various related tables and returns the created user's authentication data (without the password).
-
-    - **user_id**: integer (would also create users_2fa, users_class, users_market, users_primary_address row table with this user_id)
-    - **user_fullname**: string with max_length=255
-    - **user_birthdate**: date
-    - **user_phonenumber**: PhoneNumber lib (automatically convert to 'tel:+62-811-1111-111' format)
-    - **user_email**: EmailStr lib
-    - **user_password**: string with max_length=255 (would be omitted in the successful response body)
     """
     return services.create_user(db, user_auth)
 

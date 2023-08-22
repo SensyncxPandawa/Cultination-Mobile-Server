@@ -11,10 +11,10 @@ router = APIRouter()
 
 # UPDATE COMMUNITY CACHE
 @router.put("/community/harvest_cache/update/{harvest_plan_id}", response_model=CommunitySchema, tags=["Community Cache"])
-def update_community_cache_by_harvest_plan_id(updated_community_cache: CommunitySchema, db: Session = Depends(get_db)):
-    return services.update_community_cache_by_harvest_plan_id(db, updated_community_cache)
+def update_community_cache_by_harvest_plan_id(harvest_plan_id: int, updated_community_cache: CommunitySchema, db: Session = Depends(get_db)):
+    return services.update_community_cache_by_harvest_plan_id(db, harvest_plan_id, updated_community_cache)
 
-# DIPLAY COMMUNITY CACHE
+# DISPLAY COMMUNITY CACHE
 @router.get("/community/harvest_cache", response_model=List[CommunitySchema], tags=["Community Cache"])
 def display_community_cache_this_month(db: Session = Depends(get_db)):
     return services.display_community_cache_this_month(db)

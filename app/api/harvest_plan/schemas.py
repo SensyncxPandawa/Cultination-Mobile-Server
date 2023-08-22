@@ -4,7 +4,7 @@ from pydantic import BaseModel, Extra, constr
 class UsersHarvestPlan(BaseModel):
     harvest_plan_id: Optional[int] = None
     user_id: Optional[int] = None
-    user_province: Optional[int] = None
+    user_province: Optional[constr(max_length=255)] = None
     user_city: Optional[constr(max_length=255)] = None
     harvest_plan_start: Optional[constr(max_length=255)] = None
     harvest_plan_end: Optional[constr(max_length=255)] = None
@@ -18,5 +18,5 @@ class UsersHarvestPlan(BaseModel):
     harvest_plan_total_fish: Optional[constr(max_length=255)] = None
 
     class Config:
-        orm_mode = True
+        from_attributes = True
         extra = Extra.forbid

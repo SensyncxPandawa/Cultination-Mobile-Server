@@ -19,10 +19,10 @@ def display_all_existing_user_harvest_plan(user_id: int, db: Session = Depends(g
 
 # UPDATE USER HARVEST PLAN
 @router.put("/users/{user_id}/harvest_plan/{harvest_plan_id}", response_model=HarvestSchema, tags=["Users' Harvest Plan"])
-def update_existing_user_harvest_plan_by_harvest_plan_id(user_id: int, updated_user_harvest_plan: HarvestSchema, db: Session = Depends(get_db)):
-    return services.update_existing_user_harvest_plan_by_harvest_plan_id(db, user_id, updated_user_harvest_plan)
+def update_existing_user_harvest_plan_by_harvest_plan_id(user_id: int, harvest_plan_id: int, updated_user_harvest_plan: HarvestSchema, db: Session = Depends(get_db)):
+    return services.update_existing_user_harvest_plan_by_harvest_plan_id(db, user_id, harvest_plan_id, updated_user_harvest_plan)
 
 # DELETE ALL USER DATA TABLE (NOT ONLY AUTH)
-@router.delete("/users/{user_id}/harvest_plan/{harvest_plan_id}", response_model=HarvestSchema, tags=["Users' Harvest Plan"])
-def delete_user_harvest_plan_by_harvest_plan_id(user_id: int, db: Session = Depends(get_db)):
-    return services.delete_user_harvest_plan_by_harvest_plan_id(db, user_id)
+@router.delete("/users/{user_id}/harvest_plan/{harvest_plan_id}", response_model=None, tags=["Users' Harvest Plan"])
+def delete_user_harvest_plan_by_harvest_plan_id(user_id: int, harvest_plan_id: int, db: Session = Depends(get_db)):
+    return services.delete_user_harvest_plan_by_harvest_plan_id(db, user_id, harvest_plan_id)
