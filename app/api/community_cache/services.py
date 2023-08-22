@@ -2,7 +2,7 @@ from fastapi import HTTPException
 from sqlalchemy.orm import Session
 from datetime import datetime
 from app import models
-from .schemas import CommunityCache, UsersHarvestPlan
+from .schemas import CommunityCache
 
 # UPDATE COMMUNITY CACHE
 def update_community_cache_by_harvest_plan_id(db: Session, harvest_plan_id: int, updated_community_cache: CommunityCache):
