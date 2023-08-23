@@ -4,7 +4,6 @@ from pydantic import BaseModel, Extra, EmailStr, constr
 from pydantic_extra_types.phone_numbers import PhoneNumber
 
 class UsersAuth(BaseModel):
-    user_id: Optional[int] = None
     user_fullname: Optional[constr(max_length=255)] = None
     user_birthdate: Optional[date] = None
     user_phonenumber: Optional[PhoneNumber] = None
@@ -28,5 +27,6 @@ class DisplayUsersAuth(BaseModel):
     user_email: Optional[EmailStr] = None
 
 class DisplayUsersValidationAuth(BaseModel):
+    user_id: Optional[int] = None
     user_phonenumber: Optional[PhoneNumber] = None
     user_email: Optional[EmailStr] = None

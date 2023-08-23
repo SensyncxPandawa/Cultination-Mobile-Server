@@ -1,16 +1,20 @@
 from fastapi import HTTPException
+from sqlalchemy import func
 from sqlalchemy.orm import Session
 from app import models
 from .schemas import UsersAuth, UsersValidationAuth
 
 # [POST] CREATE ALL USER DATA TABLE (NOT ONLY AUTH)
 def create_user(db: Session, user_auth: UsersAuth):
-    existing_user = db.query(models.UsersAuth).filter_by(user_id=user_auth.user_id).first()
+    latest_user_id = db.query(func.max(models.UsersAuth.user_id)).scalar() or 0
+    new_user_id = latest_user_id + 1
 
-    if existing_user:
-        raise HTTPException(status_code=409, detail="User already exists")
+    # existing_user = db.query(models.UsersAuth).filter_by(user_id=user_auth.user_id).first()
 
-    users_auth = models.UsersAuth(**user_auth.dict())
+    # if existing_user:
+    #     raise HTTPException(status_code=409, detail="User already exists")
+
+    users_auth = models.UsersAuth(user_id=new_user_id, **user_auth.dict())
     db.add(users_auth)
 
     users_2fa = models.Users2FA(user_id=users_auth.user_id)
