@@ -2,15 +2,15 @@ from fastapi import Depends, APIRouter
 from typing import List
 from sqlalchemy.orm import Session
 from . import services
-from .schemas import UsersHarvestPlan as HarvestSchema
+from .schemas import UsersHarvestPlan as HarvestSchema, PostHarvestPlan
 from app.database import get_db
 
 router = APIRouter()
 
 # CREATE USER HARVEST PLAN
-@router.post("/users/{user_id}/harvest_plan", response_model=List[HarvestSchema], tags=["Users' Harvest Plan"])
-def create_user_harvest_plan(user_harvest_plan: HarvestSchema, db: Session = Depends(get_db)):
-    return services.create_user_harvest_plan(db, user_harvest_plan)
+@router.post("/users/{user_id}/harvest_plan", response_model=HarvestSchema, tags=["Users' Harvest Plan"])
+def create_user_harvest_plan(user_id: int, user_harvest_plan: PostHarvestPlan, db: Session = Depends(get_db)):
+    return services.create_user_harvest_plan(db, user_id, user_harvest_plan)
 
 # DISPLAY USER HARVEST PLAN
 @router.get("/users/{user_id}/harvest_plan", response_model=List[HarvestSchema], tags=["Users' Harvest Plan"])

@@ -1,16 +1,21 @@
 from fastapi import HTTPException
+from sqlalchemy import func
 from sqlalchemy.orm import Session
 from app import models
 from .schemas import UsersHarvestPlan
 
 # CREATE USER HARVEST PLAN
-def create_user_harvest_plan(db: Session, user_harvest_plan: UsersHarvestPlan):
-    existing_user_harvest_plan = db.query(models.UsersHarvestPlan).filter_by(harvest_plan_id=user_harvest_plan.harvest_plan_id).first()
+def create_user_harvest_plan(db: Session, user_id: int, user_harvest_plan: UsersHarvestPlan):
 
-    if existing_user_harvest_plan:
-        raise HTTPException(status_code=409, detail="Harvest plan already exists")
+    user_exist = db.query(models.UsersAuth).filter_by(user_id=user_id).first()
+    if user_exist is None:
+        raise HTTPException(status_code=404, detail="User not found")
 
-    user_harvest_plan = models.UsersHarvestPlan(**user_harvest_plan.dict())
+    latest_harvest_plan_id = db.query(func.max(models.UsersHarvestPlan.harvest_plan_id)).scalar() or 0
+    new_harvest_plan_id = latest_harvest_plan_id + 1
+
+
+    user_harvest_plan = models.UsersHarvestPlan(user_id=user_id, harvest_plan_id=new_harvest_plan_id, **user_harvest_plan.dict())
 
     db.add(user_harvest_plan)
 
@@ -21,9 +26,13 @@ def create_user_harvest_plan(db: Session, user_harvest_plan: UsersHarvestPlan):
 
 # DISPLAY USER HARVEST PLAN
 def display_all_existing_user_harvest_plan(db: Session, user_id: int):
+    user_exist = db.query(models.UsersAuth).filter_by(user_id=user_id).first()
+    if user_exist is None:
+        raise HTTPException(status_code=404, detail="User not found")
+
     user_harvest_plan = db.query(models.UsersHarvestPlan).filter_by(user_id=user_id)
-    if user_harvest_plan is None:
-        raise HTTPException(status_code=404, detail="User's harvest plan(s) not found")
+    if user_harvest_plan.first() is None:
+        raise HTTPException(status_code=404, detail="User's harvest plan not found")
 
     return user_harvest_plan
 
@@ -79,4 +88,3 @@ def delete_user_harvest_plan_by_harvest_plan_id(db: Session, user_id: int, harve
     db.commit()
 
     return {"message": "User data and related records deleted successfully"}
-

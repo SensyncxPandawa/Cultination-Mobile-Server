@@ -9,11 +9,6 @@ def create_user(db: Session, user_auth: UsersAuth):
     latest_user_id = db.query(func.max(models.UsersAuth.user_id)).scalar() or 0
     new_user_id = latest_user_id + 1
 
-    # existing_user = db.query(models.UsersAuth).filter_by(user_id=user_auth.user_id).first()
-
-    # if existing_user:
-    #     raise HTTPException(status_code=409, detail="User already exists")
-
     users_auth = models.UsersAuth(user_id=new_user_id, **user_auth.dict())
     db.add(users_auth)
 

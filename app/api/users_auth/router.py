@@ -30,7 +30,7 @@ def create_user(user_auth: UsersAuth, db: Session = Depends(get_db)):
 def validate_user_auth(user_validation_auth: UsersValidationAuth, db: Session = Depends(get_db)):
     """
     The function initially looks for the user_email attribute and queries the database for a matching email.
-    If absent, it searches using the user_phonenumber attribute and phone number.
+    If absent, it searches using the user_phonenumber attribute.
     If no user is located, a 404 error occurs.
     If a user is found, it validates the given user_password against the stored password; if incorrect, a 400 error emerges.
     In the end, the function yields the user object upon successful authentication.
@@ -46,8 +46,9 @@ def validate_user_auth(user_validation_auth: UsersValidationAuth, db: Session = 
 )
 def display_existing_user_auth(user_id: int, db: Session = Depends(get_db)):
     """
-    The function queries the database for a UsersAuth object with a matching user_id.
-    If no user is found, a 404 error is raised. Otherwise, the function returns the retrieved user authentication data.
+    The function fetches a user's data using a given user_id.
+    If no user is found, a 404 error is raised.
+    Otherwise, the function returns the retrieved user authentication data.
     """
     return services.display_existing_user_auth(db, user_id)
 
@@ -60,7 +61,7 @@ def display_existing_user_auth(user_id: int, db: Session = Depends(get_db)):
 )
 def update_user_auth_by_id(user_id: int, updated_user_auth: UsersAuth, db: Session = Depends(get_db)):
     """
-    The function fetches a user's authentication data from the database using a given user_id.
+    The function fetches a user's data using a given user_id.
     If no user is found, it raises a 404 error.
     When a user is located, the code updates their information using provided attributes and values.
     It iterates through the attributes of the updated_user_auth object, assigning non-null values to the corresponding user attributes.

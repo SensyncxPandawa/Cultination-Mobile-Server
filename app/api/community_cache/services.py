@@ -1,3 +1,4 @@
+import calendar
 from fastapi import HTTPException
 from sqlalchemy.orm import Session
 from datetime import datetime
@@ -32,10 +33,11 @@ def update_community_cache_by_harvest_plan_id(db: Session, harvest_plan_id: int,
 # DISPLAY COMMUNITY CACHE
 def display_community_cache_this_month(db: Session):
     current_month = datetime.now().month
+    month_name = calendar.month_name[current_month]
 
     community_cache = db.query(models.CommunityCache).filter(
-        models.CommunityCache.community_month == current_month
-    ).first()
+        models.CommunityCache.community_month == month_name
+    )
 
     if community_cache is None:
         raise HTTPException(status_code=404, detail="This month's community cache not found")
@@ -44,11 +46,12 @@ def display_community_cache_this_month(db: Session):
 
 def display_community_cache_this_month_by_province(db: Session, community_province: str):
     current_month = datetime.now().month
+    month_name = calendar.month_name[current_month]
 
     community_cache = db.query(models.CommunityCache).filter(
-        models.CommunityCache.community_month == current_month,
+        models.CommunityCache.community_month == month_name,
         models.CommunityCache.community_province == community_province
-    ).first()
+    )
 
     if community_cache is None:
         raise HTTPException(status_code=404, detail="This month's community cache not found")
@@ -57,11 +60,12 @@ def display_community_cache_this_month_by_province(db: Session, community_provin
 
 def display_community_cache_this_month_by_city(db: Session, community_city: str):
     current_month = datetime.now().month
+    month_name = calendar.month_name[current_month]
 
     community_cache = db.query(models.CommunityCache).filter(
-        models.CommunityCache.community_month == current_month,
+        models.CommunityCache.community_month == month_name,
         models.CommunityCache.community_city == community_city
-    ).first()
+    )
 
     if community_cache is None:
         raise HTTPException(status_code=404, detail="This month's community cache not found")
@@ -70,11 +74,12 @@ def display_community_cache_this_month_by_city(db: Session, community_city: str)
 
 def display_community_cache_this_month_by_fish_type(db: Session, community_fish_type: str):
     current_month = datetime.now().month
+    month_name = calendar.month_name[current_month]
 
     community_cache = db.query(models.CommunityCache).filter(
-        models.CommunityCache.community_month == current_month,
+        models.CommunityCache.community_month == month_name,
         models.CommunityCache.community_fish_type == community_fish_type
-    ).first()
+    )
 
     if community_cache is None:
         raise HTTPException(status_code=404, detail="This month's community cache not found")
@@ -84,9 +89,10 @@ def display_community_cache_this_month_by_fish_type(db: Session, community_fish_
 def display_community_cache_by_month(db: Session, community_month: str):
     community_cache = db.query(models.CommunityCache).filter(
         models.CommunityCache.community_month == community_month
-    ).first()
+    )
 
     if community_cache is None:
         raise HTTPException(status_code=404, detail="This month's community cache not found")
 
     return community_cache
+
