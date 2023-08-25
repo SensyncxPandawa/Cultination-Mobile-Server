@@ -11,7 +11,7 @@ to set up your local development environment.
 
 ```bash
 # Install local dev requirements, ideally in an isolated Python 3.7 (or later) environment
-pip install -r requirements-dev.txt
+pip install -r requirements.txt
 ```
 
 ## Running the Development Server
