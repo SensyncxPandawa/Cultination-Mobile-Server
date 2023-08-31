@@ -12,6 +12,7 @@ from app.api.users_market.router import router as users_market_router
 from app.api.users_address.router import router as users_address_router
 from app.api.harvest_plan.router import router as harvest_plan_router
 from app.api.community_cache.router import router as community_cache_router
+from app.api.enum.router import router as enum_router
 
 from .database import get_db, engine
 from .admin.sqladmin import create_admin
@@ -50,6 +51,7 @@ def create_app():
     app.include_router(users_address_router)
     app.include_router(harvest_plan_router)
     app.include_router(community_cache_router)
+    app.include_router(enum_router)
 
     create_admin(app, engine)
 
