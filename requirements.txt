@@ -12,3 +12,6 @@ uvicorn
 psycopg2
 itsdangerous
 python-dotenv
+bcrypt
+passlib
+fastapi-analytics

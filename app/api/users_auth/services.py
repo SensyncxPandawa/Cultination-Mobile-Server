@@ -3,13 +3,25 @@ from sqlalchemy import func
 from sqlalchemy.orm import Session
 from app import models
 from .schemas import UsersAuth, UsersValidationAuth
+from .encrypt import create_hashed_password, verify_password
 
 # [POST] CREATE ALL USER DATA TABLE (NOT ONLY AUTH)
 def create_user(db: Session, user_auth: UsersAuth):
     latest_user_id = db.query(func.max(models.UsersAuth.user_id)).scalar() or 0
     new_user_id = latest_user_id + 1
 
-    users_auth = models.UsersAuth(user_id=new_user_id, **user_auth.dict())
+    # Hash the user's password before storing it
+    hashed_password = create_hashed_password(user_auth.user_password)
+
+    users_auth = models.UsersAuth(
+        user_id=new_user_id,
+        user_fullname=user_auth.user_fullname,
+        user_birthdate=user_auth.user_birthdate,
+        user_phonenumber=user_auth.user_phonenumber,
+        user_email=user_auth.user_email,
+        user_password=hashed_password
+    )
+
     db.add(users_auth)
 
     users_2fa = models.Users2FA(user_id=users_auth.user_id)
@@ -31,16 +43,14 @@ def create_user(db: Session, user_auth: UsersAuth):
 # [POST] VALIDATE LOGIN REQUEST
 def validate_user_auth(db: Session, user_validation_auth: UsersValidationAuth):
     if (user_validation_auth.user_email):
-        # print(user_validation_auth.user_email)
         user = db.query(models.UsersAuth).filter_by(user_email=user_validation_auth.user_email).first()
     elif (user_validation_auth.user_phonenumber):
-        # print(user_validation_auth.user_phonenumber)
         user = db.query(models.UsersAuth).filter_by(user_phonenumber=user_validation_auth.user_phonenumber).first()
 
     if user is None:
         raise HTTPException(status_code=404, detail="User not found")
 
-    if user.user_password != user_validation_auth.user_password:
+    if not verify_password(user_validation_auth.user_password, user.user_password):
         raise HTTPException(status_code=400, detail="Invalid password")
 
     return user

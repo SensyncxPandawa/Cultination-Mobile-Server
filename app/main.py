@@ -4,6 +4,7 @@ from sqlalchemy.orm import Session
 from sqlalchemy.exc import OperationalError
 from starlette.responses import RedirectResponse
 from starlette.middleware.cors import CORSMiddleware
+from api_analytics.fastapi import Analytics
 
 from app.api.users_auth.router import router as users_auth_router
 from app.api.users_class.router import router as users_class_router
@@ -39,6 +40,9 @@ def create_app():
         allow_methods=['*'],
         allow_origins=['*'],
     )
+
+    # Enable API Analytics
+    app.add_middleware(Analytics, api_key="1de3e66a-7bc3-4053-80c7-dc1d6afc2577")
 
     app.include_router(users_auth_router)
     app.include_router(users_class_router)

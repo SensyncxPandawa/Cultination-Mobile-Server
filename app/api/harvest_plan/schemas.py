@@ -21,7 +21,7 @@ class UsersHarvestPlan(BaseModel):
         from_attributes = True
         extra = Extra.forbid
 
-class PostHarvestPlan(BaseModel):
+class SetUserHarvestPlan(BaseModel):
     user_province: Optional[constr(max_length=255)] = None
     user_city: Optional[constr(max_length=255)] = None
     harvest_plan_start: Optional[constr(max_length=255)] = None
