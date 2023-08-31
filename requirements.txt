@@ -9,7 +9,7 @@ sqladmin
 SQLAlchemy
 gunicorn
 uvicorn
-psycopg2
+psycopg2-binary
 itsdangerous
 python-dotenv
 bcrypt
