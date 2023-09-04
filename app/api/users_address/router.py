@@ -18,8 +18,8 @@ USERS_PRIMARY_ADDRESS DATA TABLE IS CREATED AUTOMATICALLY WHEN USER_AUTH IS CREA
     response_model=PondsSchema,
     tags=["Users' Address"]
 )
-def create_pond_address(user_pond_address: SetPondsSchema, db: Session = Depends(get_db)):
-    return services.create_pond_address(db, user_pond_address)
+def create_pond_address(user_id: int, user_pond_address: SetPondsSchema, db: Session = Depends(get_db)):
+    return services.create_pond_address(db, user_id, user_pond_address)
 
 # DISPLAY USER PRIMARY ADDRESS
 @router.get(

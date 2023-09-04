@@ -1,21 +1,24 @@
 from fastapi import HTTPException
+from sqlalchemy import func
 from sqlalchemy.orm import Session
 from app import models
 from .schemas import UsersPrimaryAddress, UsersPondsAddress
 
 # CREATE POND ADDRESS AND SET TO PRIMARY IF THERE IS NO PRIMARY ADDRESS
-def create_pond_address(db: Session, users_ponds: UsersPondsAddress):
-    existing_pond_id = db.query(models.UsersPondsAddress).filter_by(pond_address_id=users_ponds.pond_address_id).first()
+def create_pond_address(db: Session, user_id: int, user_pond_address: UsersPondsAddress):
+    user_exist = db.query(models.UsersAuth).filter_by(user_id=user_id).first()
+    if user_exist is None:
+        raise HTTPException(status_code=404, detail="User not found")
 
-    if existing_pond_id:
-        raise HTTPException(status_code=409, detail="Pond already exists")
+    latest_pond_address_id = db.query(func.max(models.UsersPondsAddress.pond_address_id)).scalar() or 0
+    new_pond_address_id = latest_pond_address_id + 1
 
-    users_auth = models.UsersPondsAddress(**users_ponds.dict())
-    db.add(users_auth)
+    user_pond = models.UsersPondsAddress(user_id=user_id, pond_address_id=new_pond_address_id, **user_pond_address.dict())
+    db.add(user_pond)
 
     db.commit()
 
-    return users_ponds
+    return user_pond
 
 # DISPLAY USER PRIMARY ADDRESS
 def display_existing_user_primary_address(db: Session, user_id: int):

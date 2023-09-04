@@ -2,7 +2,7 @@ from fastapi import Depends, APIRouter
 from typing import List
 from sqlalchemy.orm import Session
 from . import services
-from .schemas import CommunityCache as CommunitySchema, SetCommunityCache as SetCommunitySchema
+from .schemas import CommunityCache as CommunitySchema, SetCommunityCache as SetCommunitySchema, CommunityCacheQuery
 from app.database import get_db
 
 router = APIRouter()
@@ -19,8 +19,16 @@ def update_community_cache_by_harvest_plan_id(harvest_plan_id: int, updated_comm
     return services.update_community_cache_by_harvest_plan_id(db, harvest_plan_id, updated_community_cache)
 
 # DISPLAY COMMUNITY CACHE
+@router.post(
+    "/community/harvest_cache/",
+    response_model=List[CommunitySchema],
+    tags=["Community Cache"]
+)
+def display_community_cache_by_query(community_cache_query: CommunityCacheQuery, db: Session = Depends(get_db)):
+    return services.display_community_cache_by_query(db, community_cache_query)
+
 @router.get(
-    "/community/harvest_cache",
+    "/community/harvest_cache/month/this_month",
     response_model=List[CommunitySchema],
     tags=["Community Cache"]
 )
