@@ -13,12 +13,12 @@ router = APIRouter()
     tags=["Users' Auth"],
     summary="REGISTERING NEW USER | CREATE ALL USER DATA TABLE (NOT ONLY USERS_AUTH)",
 )
-def create_user(user_auth: UsersAuth, db: Session = Depends(get_db)):
+async def create_user(user_auth: UsersAuth, db: Session = Depends(get_db)):
     """
     The function creates a new user's authentication data and related information in a database, checking if the user already exists based on the provided user_id.
     If not, it adds records to various related tables and returns the created user's authentication data (without the password).
     """
-    return services.create_user(db, user_auth)
+    return await services.create_user(db, user_auth)
 
 # VALIDATE LOGIN REQUEST
 @router.post(
@@ -27,7 +27,7 @@ def create_user(user_auth: UsersAuth, db: Session = Depends(get_db)):
     tags=["Users' Auth"],
     summary="LOGGING IN USER | VALIDATE LOGIN REQUEST",
 )
-def validate_user_auth(user_validation_auth: UsersValidationAuth, db: Session = Depends(get_db)):
+async def validate_user_auth(user_validation_auth: UsersValidationAuth, db: Session = Depends(get_db)):
     """
     The function initially looks for the user_email attribute and queries the database for a matching email.
     If absent, it searches using the user_phonenumber attribute.
@@ -35,7 +35,7 @@ def validate_user_auth(user_validation_auth: UsersValidationAuth, db: Session = 
     If a user is found, it validates the given user_password against the stored password; if incorrect, a 400 error emerges.
     In the end, the function yields the user object upon successful authentication.
     """
-    return services.validate_user_auth(db, user_validation_auth)
+    return await services.validate_user_auth(db, user_validation_auth)
 
 # DISPLAY USER AUTHENTIFICATION DATA
 @router.get(
@@ -44,13 +44,13 @@ def validate_user_auth(user_validation_auth: UsersValidationAuth, db: Session = 
     tags=["Users' Auth"],
     summary="DISPLAY USER AUTHENTIFICATION DATA",
 )
-def display_existing_user_auth(user_id: int, db: Session = Depends(get_db)):
+async def display_existing_user_auth(user_id: int, db: Session = Depends(get_db)):
     """
     The function fetches a user's data using a given user_id.
     If no user is found, a 404 error is raised.
     Otherwise, the function returns the retrieved user authentication data.
     """
-    return services.display_existing_user_auth(db, user_id)
+    return await services.display_existing_user_auth(db, user_id)
 
 # EDIT USER AUTHENTIFICATION DATA (IT CAN ALSO EDIT INDIVIDUAL ATTRIBUTE)
 @router.put(
@@ -59,14 +59,14 @@ def display_existing_user_auth(user_id: int, db: Session = Depends(get_db)):
     tags=["Users' Auth"],
     summary="EDIT USER AUTHENTIFICATION DATA (IT CAN ALSO EDIT INDIVIDUAL ATTRIBUTE)",
 )
-def update_user_auth_by_id(user_id: int, updated_user_auth: UsersAuth, db: Session = Depends(get_db)):
+async def update_user_auth_by_id(user_id: int, updated_user_auth: UsersAuth, db: Session = Depends(get_db)):
     """
     The function fetches a user's data using a given user_id.
     If no user is found, it raises a 404 error.
     When a user is located, the code updates their information using provided attributes and values.
     It iterates through the attributes of the updated_user_auth object, assigning non-null values to the corresponding user attributes.
     """
-    return services.update_user_auth_by_id(db, user_id, updated_user_auth)
+    return await services.update_user_auth_by_id(db, user_id, updated_user_auth)
 
 # DELETE ALL USER DATA TABLE (NOT ONLY AUTH)
 @router.delete(
@@ -75,7 +75,7 @@ def update_user_auth_by_id(user_id: int, updated_user_auth: UsersAuth, db: Sessi
     tags=["Users' Auth"],
     summary="DELETE ALL USER DATA TABLE (NOT ONLY AUTH)",
 )
-def delete_user_by_id(user_id: int, db: Session = Depends(get_db)):
+async def delete_user_by_id(user_id: int, db: Session = Depends(get_db)):
     """
     The function starts by deleting associated data from different tables such as Users2FA, UsersClass, UsersMarket, and UsersPrimaryAddress based on the provided user_id.
     It then searches and deletes all records from the UsersHarvestPlan table associated with the given user_id.
@@ -83,4 +83,4 @@ def delete_user_by_id(user_id: int, db: Session = Depends(get_db)):
     If the user isn't found, a 404 error is raised.
     If the user is located, their record is deleted, and changes are committed to the database.
     """
-    return services.delete_user_by_id(db, user_id)
+    return await services.delete_user_by_id(db, user_id)

@@ -13,21 +13,21 @@ ENUM DATA IS FETCHED EVERYTIME USER OPEN APP
     "/enum/update/{enum_name}",
     tags=["Enumerator"]
 )
-def update_enumerator_by_enum_name(enum_name: str, enum_data: Dict):
-    return services.update_enumerator_by_enum_name(enum_name, enum_data)
+async def update_enumerator_by_enum_name(enum_name: str, enum_data: Dict):
+    return await services.update_enumerator_by_enum_name(enum_name, enum_data)
 
 # FETCH LATEST ENUMS
 @router.get(
     "/enum/get/all",
     tags=["Enumerator"]
 )
-def get_all_latest_enumerator():
-    return services.get_all_latest_enumerator()
+async def get_all_latest_enumerator():
+    return await services.get_all_latest_enumerator()
 
 # FETCH ENUM
 @router.get(
     "/enum/get/{enum_name}",
     tags=["Enumerator"]
 )
-def get_specific_latest_enumerator_by_enum_name(enum_name: str):
-    return services.get_specific_latest_enumerator_by_enum_name(enum_name)
+async def get_specific_latest_enumerator_by_enum_name(enum_name: str):
+    return await services.get_specific_latest_enumerator_by_enum_name(enum_name)
