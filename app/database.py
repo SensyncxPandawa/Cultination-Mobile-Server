@@ -7,13 +7,13 @@ from sqlalchemy.orm import sessionmaker
 load_dotenv()
 
 # Construct the SQLAlchemy connection URL for local PostgreSQL
-# DB_USER = os.getenv('DB_USER')
-# DB_PASS = os.getenv('DB_PASS')
-# DB_NAME = os.getenv('DB_NAME')
-# SQLALCHEMY_DATABASE_URL = f"postgresql://{DB_USER}:{DB_PASS}@localhost/{DB_NAME}"
+DB_USER = os.getenv('DB_USER')
+DB_PASS = os.getenv('DB_PASS')
+DB_NAME = os.getenv('DB_NAME')
+SQLALCHEMY_DATABASE_URL = f"postgresql://{DB_USER}:{DB_PASS}@localhost/{DB_NAME}"
 
 # Example online PostgreSQL using neondb
-SQLALCHEMY_DATABASE_URL = f"postgresql://yahyaqr:SRATDMHd91XI@ep-rough-math-66050287.ap-southeast-1.aws.neon.tech/neondb"
+# SQLALCHEMY_DATABASE_URL = f"postgresql://yahyaqr:SRATDMHd91XI@ep-rough-math-66050287.ap-southeast-1.aws.neon.tech/neondb"
 
 # Create the SQLAlchemy engine and session
 engine = create_engine(SQLALCHEMY_DATABASE_URL)
