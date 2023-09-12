@@ -4,15 +4,15 @@ from app import models
 from .schemas import UsersMarket
 
 # DISPLAY USER DATA
-async def display_existing_user_market(db: Session, user_id: int):
-    users_market = await db.query(models.UsersMarket).filter_by(user_id=user_id).first()
+def display_existing_user_market(db: Session, user_id: int):
+    users_market = db.query(models.UsersMarket).filter_by(user_id=user_id).first()
     if users_market is None:
         raise HTTPException(status_code=404, detail="User ID not found")
 
     return users_market
 
 # SET USER DATA
-async def update_user_market_by_id(db: Session, user_id: int, updated_users_market: UsersMarket):
+def update_user_market_by_id(db: Session, user_id: int, updated_users_market: UsersMarket):
     users_market = db.query(models.UsersMarket).filter_by(user_id=user_id).first()
     if users_market is None:
         raise HTTPException(status_code=404, detail="User class not found")
@@ -34,7 +34,7 @@ async def update_user_market_by_id(db: Session, user_id: int, updated_users_mark
         users_market.user_market_preference = updated_users_market.user_market_preference
 
     # Commit changes to the database
-    await db.commit()
+    db.commit()
 
     return users_market
 

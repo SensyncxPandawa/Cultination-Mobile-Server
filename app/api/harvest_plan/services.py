@@ -5,39 +5,40 @@ from app import models
 from .schemas import UsersHarvestPlan
 
 # CREATE USER HARVEST PLAN
-async def create_user_harvest_plan(db: Session, user_id: int, user_harvest_plan: UsersHarvestPlan):
-    user_exist = await db.query(models.UsersAuth).filter_by(user_id=user_id).first()
+def create_user_harvest_plan(db: Session, user_id: int, user_harvest_plan: UsersHarvestPlan):
+
+    user_exist = db.query(models.UsersAuth).filter_by(user_id=user_id).first()
     if user_exist is None:
         raise HTTPException(status_code=404, detail="User not found")
 
-    latest_harvest_plan_id = await db.query(func.max(models.UsersHarvestPlan.harvest_plan_id)).scalar() or 0
+    latest_harvest_plan_id = db.query(func.max(models.UsersHarvestPlan.harvest_plan_id)).scalar() or 0
     new_harvest_plan_id = latest_harvest_plan_id + 1
 
 
     user_harvest_plan = models.UsersHarvestPlan(user_id=user_id, harvest_plan_id=new_harvest_plan_id, **user_harvest_plan.dict())
 
-    await db.add(user_harvest_plan)
+    db.add(user_harvest_plan)
 
-    await db.commit()
+    db.commit()
 
     return user_harvest_plan
 
 
 # DISPLAY USER HARVEST PLAN
-async def display_all_existing_user_harvest_plan(db: Session, user_id: int):
-    user_exist = await db.query(models.UsersAuth).filter_by(user_id=user_id).first()
+def display_all_existing_user_harvest_plan(db: Session, user_id: int):
+    user_exist = db.query(models.UsersAuth).filter_by(user_id=user_id).first()
     if user_exist is None:
         raise HTTPException(status_code=404, detail="User not found")
 
-    user_harvest_plan = await db.query(models.UsersHarvestPlan).filter_by(user_id=user_id)
+    user_harvest_plan = db.query(models.UsersHarvestPlan).filter_by(user_id=user_id)
     if user_harvest_plan.first() is None:
         raise HTTPException(status_code=404, detail="User's harvest plan not found")
 
     return user_harvest_plan
 
 # UPDATE USER HARVEST PLAN
-async def update_existing_user_harvest_plan_by_harvest_plan_id(db: Session, user_id: int, harvest_plan_id: int, updated_user_harvest_plan: UsersHarvestPlan):
-    user_harvest_plan = await db.query(models.UsersHarvestPlan).filter(
+def update_existing_user_harvest_plan_by_harvest_plan_id(db: Session, user_id: int, harvest_plan_id: int, updated_user_harvest_plan: UsersHarvestPlan):
+    user_harvest_plan = db.query(models.UsersHarvestPlan).filter(
         models.UsersHarvestPlan.user_id == user_id,
         models.UsersHarvestPlan.harvest_plan_id == harvest_plan_id
     ).first()
@@ -72,18 +73,18 @@ async def update_existing_user_harvest_plan_by_harvest_plan_id(db: Session, user
         user_harvest_plan.harvest_plan_total_fish = updated_user_harvest_plan.harvest_plan_total_fish
 
     # Commit changes to the database
-    await db.commit()
+    db.commit()
 
     return user_harvest_plan
 
 # DELETE ALL USER DATA TABLE (NOT ONLY AUTH)
-async def delete_user_harvest_plan_by_harvest_plan_id(db: Session, user_id: int, harvest_plan_id: int):
+def delete_user_harvest_plan_by_harvest_plan_id(db: Session, user_id: int, harvest_plan_id: int):
     # Delete related data from other tables based on user_id
-    await db.query(models.UsersHarvestPlan).filter(
+    db.query(models.UsersHarvestPlan).filter(
         models.UsersHarvestPlan.user_id == user_id,
         models.UsersHarvestPlan.harvest_plan_id == harvest_plan_id
     ).delete()
 
-    await db.commit()
+    db.commit()
 
     return {"message": "User data and related records deleted successfully"}

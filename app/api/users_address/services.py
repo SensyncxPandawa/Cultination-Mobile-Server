@@ -5,40 +5,40 @@ from app import models
 from .schemas import UsersPrimaryAddress, UsersPondsAddress
 
 # CREATE POND ADDRESS AND SET TO PRIMARY IF THERE IS NO PRIMARY ADDRESS
-async def create_pond_address(db: Session, user_id: int, user_pond_address: UsersPondsAddress):
-    user_exist = await db.query(models.UsersAuth).filter_by(user_id=user_id).first()
+def create_pond_address(db: Session, user_id: int, user_pond_address: UsersPondsAddress):
+    user_exist = db.query(models.UsersAuth).filter_by(user_id=user_id).first()
     if user_exist is None:
         raise HTTPException(status_code=404, detail="User not found")
 
-    latest_pond_address_id = await db.query(func.max(models.UsersPondsAddress.pond_address_id)).scalar() or 0
+    latest_pond_address_id = db.query(func.max(models.UsersPondsAddress.pond_address_id)).scalar() or 0
     new_pond_address_id = latest_pond_address_id + 1
 
     user_pond = models.UsersPondsAddress(user_id=user_id, pond_address_id=new_pond_address_id, **user_pond_address.dict())
-    await db.add(user_pond)
+    db.add(user_pond)
 
-    await db.commit()
+    db.commit()
 
     return user_pond
 
 # DISPLAY USER PRIMARY ADDRESS
-async def display_existing_user_primary_address(db: Session, user_id: int):
-    primary_address = await db.query(models.UsersPrimaryAddress).filter_by(user_id=user_id).first()
+def display_existing_user_primary_address(db: Session, user_id: int):
+    primary_address = db.query(models.UsersPrimaryAddress).filter_by(user_id=user_id).first()
     if primary_address is None:
         raise HTTPException(status_code=404, detail="User's primary address not found")
 
     return primary_address
 
 # DISPLAY ALL USER POND ADDRESSES (TODO: LIST RESPONSE)
-async def display_all_existing_user_pond_address(db: Session, user_id: int):
-    pond_addresses = await db.query(models.UsersPondsAddress).filter_by(user_id=user_id)
+def display_all_existing_user_pond_address(db: Session, user_id: int):
+    pond_addresses = db.query(models.UsersPondsAddress).filter_by(user_id=user_id)
     if pond_addresses is None:
         raise HTTPException(status_code=404, detail="User's pond not found")
 
     return pond_addresses
 
 # DISPLAY CERTAIN USER POND ADDRESS
-async def display_certain_existing_user_pond_address(db: Session, user_id: int, pond_address_id: int):
-    pond_address = await db.query(models.UsersPondsAddress).filter(
+def display_certain_existing_user_pond_address(db: Session, user_id: int, pond_address_id: int):
+    pond_address = db.query(models.UsersPondsAddress).filter(
         models.UsersPondsAddress.user_id == user_id,
         models.UsersPondsAddress.pond_address_id == pond_address_id
     ).first()
@@ -49,8 +49,8 @@ async def display_certain_existing_user_pond_address(db: Session, user_id: int, 
     return pond_address
 
 # SET PRIMARY ADDRESS
-async def update_user_primary_address_by_user_id(db: Session, user_id: int, updated_user_primary_address: UsersPrimaryAddress):
-    primary_address = await db.query(models.UsersPrimaryAddress).filter_by(user_id=user_id).first()
+def update_user_primary_address_by_user_id(db: Session, user_id: int, updated_user_primary_address: UsersPrimaryAddress):
+    primary_address = db.query(models.UsersPrimaryAddress).filter_by(user_id=user_id).first()
 
     if primary_address is None:
         raise HTTPException(status_code=404, detail="User's primary address not found")
@@ -58,13 +58,13 @@ async def update_user_primary_address_by_user_id(db: Session, user_id: int, upda
     primary_address.pond_address_id = updated_user_primary_address.pond_address_id
 
     # Commit changes to the database
-    await db.commit()
+    db.commit()
 
     return primary_address
 
 # UPDATE USER POND ADDRESS
-async def update_user_pond_address_by_pond_id(db: Session, user_id: int, pond_address_id: int, updated_user_pond_address: UsersPondsAddress):
-    pond_address = await db.query(models.UsersPondsAddress).filter(
+def update_user_pond_address_by_pond_id(db: Session, user_id: int, pond_address_id: int, updated_user_pond_address: UsersPondsAddress):
+    pond_address = db.query(models.UsersPondsAddress).filter(
         models.UsersPondsAddress.user_id == user_id,
         models.UsersPondsAddress.pond_address_id == pond_address_id
     ).first()
@@ -87,18 +87,18 @@ async def update_user_pond_address_by_pond_id(db: Session, user_id: int, pond_ad
         pond_address.user_address_coordinates = updated_user_pond_address.user_address_coordinates
 
     # Commit changes to the database
-    await db.commit()
+    db.commit()
 
     return pond_address
 
 # DELETE USER POND ADDRESS
-async def delete_user_pond_address_by_pond_id(db: Session, user_id: int, pond_address_id: int):
+def delete_user_pond_address_by_pond_id(db: Session, user_id: int, pond_address_id: int):
     # Delete related data from other tables based on user_id
-    await db.query(models.UsersPondsAddress).filter(
+    db.query(models.UsersPondsAddress).filter(
         models.UsersPondsAddress.user_id == user_id,
         models.UsersPondsAddress.pond_address_id == pond_address_id
     ).delete()
 
-    await db.commit()
+    db.commit()
 
     return {"message": "User data and related records deleted successfully"}

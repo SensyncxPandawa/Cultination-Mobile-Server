@@ -13,8 +13,8 @@ router = APIRouter()
     response_model=HarvestSchema,
     tags=["Users' Harvest Plan"]
 )
-async def create_user_harvest_plan(user_id: int, user_harvest_plan: SetHarvestSchema, db: Session = Depends(get_db)):
-    return await services.create_user_harvest_plan(db, user_id, user_harvest_plan)
+def create_user_harvest_plan(user_id: int, user_harvest_plan: SetHarvestSchema, db: Session = Depends(get_db)):
+    return services.create_user_harvest_plan(db, user_id, user_harvest_plan)
 
 # DISPLAY USER HARVEST PLAN
 @router.get(
@@ -22,8 +22,8 @@ async def create_user_harvest_plan(user_id: int, user_harvest_plan: SetHarvestSc
     response_model=List[HarvestSchema],
     tags=["Users' Harvest Plan"]
 )
-async def display_all_existing_user_harvest_plan(user_id: int, db: Session = Depends(get_db)):
-    return await services.display_all_existing_user_harvest_plan(db, user_id)
+def display_all_existing_user_harvest_plan(user_id: int, db: Session = Depends(get_db)):
+    return services.display_all_existing_user_harvest_plan(db, user_id)
 
 # UPDATE USER HARVEST PLAN
 @router.put(
@@ -31,8 +31,8 @@ async def display_all_existing_user_harvest_plan(user_id: int, db: Session = Dep
     response_model=HarvestSchema,
     tags=["Users' Harvest Plan"]
 )
-async def update_existing_user_harvest_plan_by_harvest_plan_id(user_id: int, harvest_plan_id: int, updated_user_harvest_plan: SetHarvestSchema, db: Session = Depends(get_db)):
-    return await services.update_existing_user_harvest_plan_by_harvest_plan_id(db, user_id, harvest_plan_id, updated_user_harvest_plan)
+def update_existing_user_harvest_plan_by_harvest_plan_id(user_id: int, harvest_plan_id: int, updated_user_harvest_plan: SetHarvestSchema, db: Session = Depends(get_db)):
+    return services.update_existing_user_harvest_plan_by_harvest_plan_id(db, user_id, harvest_plan_id, updated_user_harvest_plan)
 
 # DELETE ALL USER DATA TABLE (NOT ONLY AUTH)
 @router.delete(
@@ -40,5 +40,5 @@ async def update_existing_user_harvest_plan_by_harvest_plan_id(user_id: int, har
     response_model=None,
     tags=["Users' Harvest Plan"]
 )
-async def delete_user_harvest_plan_by_harvest_plan_id(user_id: int, harvest_plan_id: int, db: Session = Depends(get_db)):
-    return await services.delete_user_harvest_plan_by_harvest_plan_id(db, user_id, harvest_plan_id)
+def delete_user_harvest_plan_by_harvest_plan_id(user_id: int, harvest_plan_id: int, db: Session = Depends(get_db)):
+    return services.delete_user_harvest_plan_by_harvest_plan_id(db, user_id, harvest_plan_id)

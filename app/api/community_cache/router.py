@@ -15,8 +15,8 @@ router = APIRouter()
     response_model=CommunitySchema,
     tags=["Community Cache"]
 )
-async def update_community_cache_by_harvest_plan_id(harvest_plan_id: int, updated_community_cache: SetCommunitySchema, db: Session = Depends(get_db)):
-    return await services.update_community_cache_by_harvest_plan_id(db, harvest_plan_id, updated_community_cache)
+def update_community_cache_by_harvest_plan_id(harvest_plan_id: int, updated_community_cache: SetCommunitySchema, db: Session = Depends(get_db)):
+    return services.update_community_cache_by_harvest_plan_id(db, harvest_plan_id, updated_community_cache)
 
 # DISPLAY COMMUNITY CACHE
 @router.post(
@@ -24,45 +24,45 @@ async def update_community_cache_by_harvest_plan_id(harvest_plan_id: int, update
     response_model=List[CommunitySchema],
     tags=["Community Cache"]
 )
-async def display_community_cache_by_query(community_cache_query: CommunityCacheQuery, db: Session = Depends(get_db)):
-    return await services.display_community_cache_by_query(db, community_cache_query)
+def display_community_cache_by_query(community_cache_query: CommunityCacheQuery, db: Session = Depends(get_db)):
+    return services.display_community_cache_by_query(db, community_cache_query)
 
 @router.get(
     "/community/harvest_cache/month/this_month",
     response_model=List[CommunitySchema],
     tags=["Community Cache"]
 )
-async def display_community_cache_this_month(db: Session = Depends(get_db)):
-    return await services.display_community_cache_this_month(db)
+def display_community_cache_this_month(db: Session = Depends(get_db)):
+    return services.display_community_cache_this_month(db)
 
 @router.get(
     "/community/harvest_cache/province/{community_province}",
     response_model=List[CommunitySchema],
     tags=["Community Cache"]
 )
-async def display_community_cache_this_month_by_province(community_province: str, db: Session = Depends(get_db)):
-    return await services.display_community_cache_this_month_by_province(db, community_province)
+def display_community_cache_this_month_by_province(community_province: str, db: Session = Depends(get_db)):
+    return services.display_community_cache_this_month_by_province(db, community_province)
 
 @router.get(
     "/community/harvest_cache/city/{community_city}",
     response_model=List[CommunitySchema],
     tags=["Community Cache"]
 )
-async def display_community_cache_this_month_by_city(community_city: str, db: Session = Depends(get_db)):
-    return await services.display_community_cache_this_month_by_city(db, community_city)
+def display_community_cache_this_month_by_city(community_city: str, db: Session = Depends(get_db)):
+    return services.display_community_cache_this_month_by_city(db, community_city)
 
 @router.get(
     "/community/harvest_cache/fish_type/{community_fish_type}",
     response_model=List[CommunitySchema],
     tags=["Community Cache"]
 )
-async def display_community_cache_this_month_by_fish_type(community_fish_type: str, db: Session = Depends(get_db)):
-    return await services.display_community_cache_this_month_by_fish_type(db, community_fish_type)
+def display_community_cache_this_month_by_fish_type(community_fish_type: str, db: Session = Depends(get_db)):
+    return services.display_community_cache_this_month_by_fish_type(db, community_fish_type)
 
 @router.get(
     "/community/harvest_cache/month/{community_month}",
     response_model=List[CommunitySchema],
     tags=["Community Cache"]
 )
-async def display_community_cache_by_month(community_month: str, db: Session = Depends(get_db)):
-    return await services.display_community_cache_by_month(db, community_month)
+def display_community_cache_by_month(community_month: str, db: Session = Depends(get_db)):
+    return services.display_community_cache_by_month(db, community_month)
