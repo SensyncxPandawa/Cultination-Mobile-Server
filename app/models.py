@@ -31,7 +31,7 @@ class UsersClass(Base):
     user_id = Column(Integer, ForeignKey('users_auth.user_id'), primary_key=True, index=True)
     user_age = Column(Integer)
     user_proficiency_level = Column(String(50))
-    user_pond_total = Column(Integer)
+    user_pond_total = Column(String(50))
     user_pond_size_range = Column(String(50))
     user_fish_type = Column(String(255))
     user_fish_size_preference = Column(String(50))
