@@ -32,6 +32,7 @@ metadata.reflect(bind=engine, only=[
     "users_class",
     "users_harvest_plan",
     "users_market",
+    "users_ponds",
     "users_ponds_address",
     "users_primary_address",
 ])

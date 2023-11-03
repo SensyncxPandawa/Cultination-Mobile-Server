@@ -16,6 +16,13 @@ def create_pond_address(db: Session, user_id: int, user_pond_address: UsersPonds
     user_pond = models.UsersPondsAddress(user_id=user_id, pond_address_id=new_pond_address_id, **user_pond_address.dict())
     db.add(user_pond)
 
+    # Check if the user already has a primary address with a pond_address
+    primary_address = db.query(models.UsersPrimaryAddress).filter_by(user_id=user_id).first()
+    if primary_address is None:
+        raise HTTPException(status_code=404, detail="User's primary address not found")
+
+    primary_address.pond_address_id = new_pond_address_id
+
     db.commit()
 
     return user_pond

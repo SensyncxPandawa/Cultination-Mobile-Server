@@ -11,21 +11,22 @@ from app.api.users_class.router import router as users_class_router
 from app.api.users_market.router import router as users_market_router
 from app.api.users_address.router import router as users_address_router
 from app.api.harvest_plan.router import router as harvest_plan_router
+from app.api.users_ponds.router import router as users_ponds_router
 from app.api.community_cache.router import router as community_cache_router
-from app.api.enum.router import router as enum_router
+# from app.api.enum.router import router as enum_router
 
 from .database import get_db, engine
 from .admin.sqladmin import create_admin
 
 description = """
-Cultination API Server is a component of a larger system designed to provide trading services for aquaculture farmers. This API server provides a way to interact with the system programmatically.
+Cultination Mobile App Server is a component of a larger system designed to provide services for aquaculture farmers. This API server provides a way to interact with the system programmatically.
 """
 
 def create_app():
     app = FastAPI(
-        title="Cultination API Server",
+        title="Cultination Mobile App Server ",
         description=description,
-        version="0.0.1",
+        version="0.1.0",
         contact={
             "name": "Yahya Aqrom",
             "url": "https://yahyaqr.github.io/",
@@ -50,8 +51,9 @@ def create_app():
     app.include_router(users_market_router)
     app.include_router(users_address_router)
     app.include_router(harvest_plan_router)
+    app.include_router(users_ponds_router)
     app.include_router(community_cache_router)
-    app.include_router(enum_router)
+    # app.include_router(enum_router)
 
     create_admin(app, engine)
 
@@ -60,9 +62,9 @@ def create_app():
 app = create_app()
 
 @app.get("/", tags=["Debug"], include_in_schema=False)
-def check_db_and_go_to_admin(db: Session = Depends(get_db)):
+async def check_db_and_go_to_admin(db: Session = Depends(get_db)):
     try:
-        db.execute(text("SELECT 1"))
+        await db.execute(text("SELECT 1"))
         response_message = "Database is accessible"
         print(response_message)
         return RedirectResponse(url="/admin")
@@ -70,4 +72,3 @@ def check_db_and_go_to_admin(db: Session = Depends(get_db)):
         error_message = f"Database connection error: {str(e)}"
         print(error_message)
         return
-

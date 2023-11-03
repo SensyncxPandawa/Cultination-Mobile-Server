@@ -1,4 +1,4 @@
-from sqlalchemy import Column, DateTime, Integer, String, ForeignKey
+from sqlalchemy import Column, DateTime, Date, Integer, String, ForeignKey
 from sqlalchemy.orm import declarative_base, relationship
 
 Base = declarative_base()
@@ -18,6 +18,7 @@ class UsersAuth(Base):
     users_ponds_address = relationship('UsersPondsAddress', back_populates='users_auth')
     users_primary_address = relationship('UsersPrimaryAddress', back_populates='users_auth')
     users_harvest_plan = relationship('UsersHarvestPlan', back_populates='users_auth')
+    users_ponds = relationship('UsersPonds', back_populates='users_auth')
 
 class Users2FA(Base):
     __tablename__ = 'users_2fa'
@@ -32,9 +33,9 @@ class UsersClass(Base):
     user_age = Column(Integer)
     user_proficiency_level = Column(String(50))
     user_pond_total = Column(String(50))
-    user_pond_size_range = Column(String(50))
+    user_pond_size_range = Column(String(255))
     user_fish_type = Column(String(255))
-    user_fish_size_preference = Column(String(50))
+    user_fish_size_preference = Column(String(255))
 
     users_auth = relationship('UsersAuth', back_populates='users_class')
 
@@ -92,6 +93,20 @@ class UsersHarvestPlan(Base):
     harvest_plan_total_fish = Column(String(255))
     
     users_auth = relationship('UsersAuth', back_populates='users_harvest_plan')
+
+class UsersPonds(Base):
+    __tablename__ = 'users_ponds'
+
+    pond_id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, ForeignKey('users_auth.user_id'))
+    user_ponds_pond_name = Column(String(255))
+    user_ponds_fish_type = Column(String(255))
+    user_ponds_start_date = Column(Date)
+    user_ponds_pond_diameter = Column(Integer)
+    user_ponds_pond_density = Column(String(255))
+    user_ponds_target_size = Column(String(255))
+    
+    users_auth = relationship('UsersAuth', back_populates='users_ponds')
 
 class CommunityCache(Base):
     __tablename__ = 'community_cache'

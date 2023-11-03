@@ -6,23 +6,22 @@ from pydantic import BaseModel, Extra, constr
 class UsersClass(BaseModel):
     user_id: Optional[int] = None
     user_age: Optional[int] = None
-    user_proficiency_level: Optional[constr(max_length=100)] = None
-    user_pond_total: Optional[constr(max_length=100)] = None
-    user_pond_size_range: Optional[constr(max_length=100)] = None
-    user_fish_type: Optional[constr(max_length=100)] = None
-    user_fish_size_preference: Optional[constr(max_length=100)] = None
+    user_proficiency_level: Optional[constr(max_length=50)] = None
+    user_pond_total: Optional[constr(max_length=50)] = None
+    user_pond_size_range: Optional[constr(max_length=255)] = None
+    user_fish_type: Optional[constr(max_length=255)] = None
+    user_fish_size_preference: Optional[constr(max_length=255)] = None
 
     class Config:
         from_attributes = True
         extra = Extra.forbid
 
 class SetUsersClass(BaseModel):
-    user_age: Optional[int] = None
-    user_proficiency_level: Optional[constr(max_length=100)] = None
-    user_pond_total: Optional[constr(max_length=100)] = None
-    user_pond_size_range: Optional[constr(max_length=100)] = None
-    user_fish_type: Optional[constr(max_length=100)] = None
-    user_fish_size_preference: Optional[constr(max_length=100)] = None
+    user_proficiency_level: Optional[constr(max_length=50)] = None
+    user_pond_total: Optional[constr(max_length=50)] = None
+    user_pond_size_range: Optional[constr(max_length=255)] = None
+    user_fish_type: Optional[constr(max_length=255)] = None
+    user_fish_size_preference: Optional[constr(max_length=255)] = None
 
     class Config:
         from_attributes = True
@@ -30,14 +29,14 @@ class SetUsersClass(BaseModel):
 
 class UserProficiencyLevel(BaseModel):
     user_id: Optional[int] = None
-    user_proficiency_level: Optional[constr(max_length=100)] = None
+    user_proficiency_level: Optional[constr(max_length=50)] = None
 
     class Config:
         from_attributes = True
         extra = Extra.forbid
 
 class SetUserProficiencyLevel(BaseModel):
-    user_proficiency_level: Optional[constr(max_length=100)] = None
+    user_proficiency_level: Optional[constr(max_length=50)] = None
 
     class Config:
         from_attributes = True
@@ -45,14 +44,14 @@ class SetUserProficiencyLevel(BaseModel):
 
 class UserPondTotal(BaseModel):
     user_id: Optional[int] = None
-    user_pond_total: Optional[int] = None
+    user_pond_total: Optional[constr(max_length=50)] = None
 
     class Config:
         from_attributes = True
         extra = Extra.forbid
 
 class SetUserPondTotal(BaseModel):
-    user_pond_total: Optional[int] = None
+    user_pond_total: Optional[constr(max_length=50)] = None
 
     class Config:
         from_attributes = True
@@ -60,14 +59,14 @@ class SetUserPondTotal(BaseModel):
 
 class UserPondSizeRange(BaseModel):
     user_id: Optional[int] = None
-    user_pond_size_range: Optional[constr(max_length=100)] = None
+    user_pond_size_range: Optional[constr(max_length=255)] = None
 
     class Config:
         from_attributes = True
         extra = Extra.forbid
 
 class SetUserPondSizeRange(BaseModel):
-    user_pond_size_range: Optional[constr(max_length=100)] = None
+    user_pond_size_range: Optional[constr(max_length=255)] = None
 
     class Config:
         from_attributes = True
@@ -75,14 +74,14 @@ class SetUserPondSizeRange(BaseModel):
 
 class UserFishType(BaseModel):
     user_id: Optional[int] = None
-    user_fish_type: Optional[constr(max_length=100)] = None
+    user_fish_type: Optional[constr(max_length=255)] = None
 
     class Config:
         from_attributes = True
         extra = Extra.forbid
 
 class SetUserFishType(BaseModel):
-    user_fish_type: Optional[constr(max_length=100)] = None
+    user_fish_type: Optional[constr(max_length=255)] = None
 
     class Config:
         from_attributes = True
@@ -90,14 +89,14 @@ class SetUserFishType(BaseModel):
 
 class UserFishSizePreference(BaseModel):
     user_id: Optional[int] = None
-    user_fish_size_preference: Optional[constr(max_length=100)] = None
+    user_fish_size_preference: Optional[constr(max_length=255)] = None
 
     class Config:
         from_attributes = True
         extra = Extra.forbid
 
 class SetUserFishSizePreference(BaseModel):
-    user_fish_size_preference: Optional[constr(max_length=100)] = None
+    user_fish_size_preference: Optional[constr(max_length=255)] = None
 
     class Config:
         from_attributes = True

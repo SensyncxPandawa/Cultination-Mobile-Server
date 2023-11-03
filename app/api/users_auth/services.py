@@ -4,6 +4,7 @@ from sqlalchemy.orm import Session
 from app import models
 from .schemas import UsersAuth, UsersValidationAuth
 from .encrypt import create_hashed_password, verify_password
+from datetime import date
 
 # [POST] CREATE ALL USER DATA TABLE (NOT ONLY AUTH)
 def create_user(db: Session, user_auth: UsersAuth):
@@ -23,11 +24,13 @@ def create_user(db: Session, user_auth: UsersAuth):
     )
 
     db.add(users_auth)
+    
 
     users_2fa = models.Users2FA(user_id=users_auth.user_id)
     db.add(users_2fa)
 
-    users_class = models.UsersClass(user_id=users_auth.user_id)
+    calc_user_age = (date.today() - users_auth.user_birthdate).days // 365
+    users_class = models.UsersClass(user_id=users_auth.user_id, user_age=calc_user_age)
     db.add(users_class)
 
     users_market = models.UsersMarket(user_id=users_auth.user_id)

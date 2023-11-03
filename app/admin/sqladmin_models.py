@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, DateTime
+from sqlalchemy import Column, Integer, String, DateTime, Date
 from sqlalchemy.orm import declarative_base
 
 Base = declarative_base()
@@ -22,10 +22,10 @@ class UsersClass(Base):
     user_id = Column(Integer, primary_key=True)
     user_age = Column(Integer)
     user_proficiency_level = Column(String(50))
-    user_pond_total = Column(Integer)
-    user_pond_size_range = Column(String(50))
+    user_pond_total = Column(String(50))
+    user_pond_size_range = Column(String(255))
     user_fish_type = Column(String(255))
-    user_fish_size_preference = Column(String(50))
+    user_fish_size_preference = Column(String(255))
 
 class UsersMarket(Base):
     __tablename__ = 'users_market'
@@ -70,6 +70,18 @@ class UsersHarvestPlan(Base):
     harvest_plan_target_capacity = Column(String(255))
     harvest_plan_target_size = Column(String(255))
     harvest_plan_total_fish = Column(String(255))
+
+class UsersPonds(Base):
+    __tablename__ = 'users_ponds'
+
+    pond_id = Column(Integer, primary_key=True)
+    user_id = Column(Integer)
+    user_ponds_pond_name = Column(String(255))
+    user_ponds_fish_type = Column(String(255))
+    user_ponds_start_date = Column(Date)
+    user_ponds_pond_diameter = Column(Integer)
+    user_ponds_pond_density = Column(String(255))
+    user_ponds_target_size = Column(String(255))
 
 class CommunityCache(Base):
     __tablename__ = 'community_cache'

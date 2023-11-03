@@ -1,5 +1,5 @@
 from sqladmin import Admin, ModelView
-from .sqladmin_models import UsersAuth, Users2FA, UsersClass, UsersMarket, UsersPondsAddress, UsersPrimaryAddress, UsersHarvestPlan, CommunityCache
+from .sqladmin_models import UsersAuth, Users2FA, UsersClass, UsersMarket, UsersPondsAddress, UsersPrimaryAddress, UsersHarvestPlan, UsersPonds, CommunityCache
 
 def create_admin(app, engine):
     admin = Admin(app, engine)
@@ -54,6 +54,13 @@ def create_admin(app, engine):
         column_sortable_list = ['harvest_plan_id', 'user_id', 'user_province', 'user_city', 'harvest_plan_start']
         column_list = ['harvest_plan_id', 'user_id', 'user_province', 'user_city', 'harvest_plan_start']
 
+    class UsersPondsAdmin(ModelView, model=UsersPonds):
+        name = "Users Pond"
+        name_plural = "Users Ponds"
+        icon = "fa fa-circle"
+        column_sortable_list = ['pond_id', 'user_id']
+        column_list = ['pond_id', 'user_id']
+
     class CommunityCacheAdmin(ModelView, model=CommunityCache):
         name = "Community"
         name_plural = "Communities"
@@ -68,4 +75,5 @@ def create_admin(app, engine):
     admin.add_view(UsersPondsAddressAdmin)
     admin.add_view(UsersPrimaryAddressAdmin)
     admin.add_view(UsersHarvestPlanAdmin)
+    admin.add_view(UsersPondsAdmin)
     admin.add_view(CommunityCacheAdmin)
