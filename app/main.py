@@ -7,6 +7,7 @@ from starlette.middleware.cors import CORSMiddleware
 from api_analytics.fastapi import Analytics
 
 from app.api.users_auth.router import router as users_auth_router
+from app.api.users_2fa.router import router as users_2fa_router
 from app.api.users_class.router import router as users_class_router
 from app.api.users_market.router import router as users_market_router
 from app.api.users_address.router import router as users_address_router
@@ -47,6 +48,7 @@ def create_app():
     app.add_middleware(Analytics, api_key="1de3e66a-7bc3-4053-80c7-dc1d6afc2577")
 
     app.include_router(users_auth_router)
+    app.include_router(users_2fa_router)
     app.include_router(users_class_router)
     app.include_router(users_market_router)
     app.include_router(users_address_router)
