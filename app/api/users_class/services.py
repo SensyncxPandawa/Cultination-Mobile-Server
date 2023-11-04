@@ -17,19 +17,10 @@ def update_user_class_by_user_id(db: Session, user_id: int, updated_users_class:
     if user_class is None:
         raise HTTPException(status_code=404, detail="User class not found")
 
-    # Update only the provided fields from updated_users_class
-    if hasattr(updated_users_class, 'user_age'):
-        user_class.user_age = updated_users_class.user_age
-    if hasattr(updated_users_class, 'user_proficiency_level'):
-        user_class.user_proficiency_level = updated_users_class.user_proficiency_level
-    if hasattr(updated_users_class, 'user_pond_total'):
-        user_class.user_pond_total = updated_users_class.user_pond_total
-    if hasattr(updated_users_class, 'user_pond_size_range'):
-        user_class.user_pond_size_range = updated_users_class.user_pond_size_range
-    if hasattr(updated_users_class, 'user_fish_type'):
-        user_class.user_fish_type = updated_users_class.user_fish_type
-    if hasattr(updated_users_class, 'user_fish_size_preference'):
-        user_class.user_fish_size_preference = updated_users_class.user_fish_size_preference
+    # Update the user's data based on the provided input
+    for attr, value in updated_users_class.dict().items():
+        if attr != "user_id" and hasattr(user_class, attr) and value is not None:
+            setattr(user_class, attr, value)
 
     # Commit changes to the database
     db.commit()
