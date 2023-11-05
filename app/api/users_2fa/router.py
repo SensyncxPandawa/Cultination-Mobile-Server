@@ -14,7 +14,7 @@ router = APIRouter()
 )
 def generate_and_send_otp_code(user_id: int, db: Session = Depends(get_db)):
     """
-    The function fetches a user's data using the user_id.
+    The function fetches a user's 2FA data using the user_id.
     \n If no user is found, a 404 error is raised.
     \n It then generate new otp_code.
     \n It then send the otp_code using Fonnta (WhatsApp) to the user_phonenumber.
@@ -30,7 +30,7 @@ def generate_and_send_otp_code(user_id: int, db: Session = Depends(get_db)):
 )
 def validate_otp_code(user_id: int, provided_otp_code: OTPCode, db: Session = Depends(get_db)):
     """
-    The function fetches a user's data using the user_id.
+    The function fetches a user's 2FA data using the user_id.
     \n If no user is found, a 404 error is raised.
     \n If a user is found, it validates the given otp_code against the stored otp_code;
     \n If the otp_code is incorrect, a 400 error is raised.

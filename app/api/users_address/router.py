@@ -15,14 +15,14 @@ router = APIRouter()
 )
 def create_pond_address(user_id: int, user_pond_address: SetPondsSchema, db: Session = Depends(get_db)):
     """
-    The function fetches a user's data using the user_id.
+    The function fetches a user's pond address data using the user_id.
     \n If no user is found, a 404 error is raised.
     \n It then check if the user has a primary address
     \n If no primary address is found, a 404 error is raised.
     \n It then proceed to generate new_pond_address_id 
     \n It then fills the UsersPondsAdress table with the new_pond_address_id and the provided attributes and values.
     \n It then updates the primary address with the new_pond_address_id.
-    \n The function returns the retrieved user address data.
+    \n The function returns the retrieved user's pond address data.
     """
     return services.create_pond_address(db, user_id, user_pond_address)
 
