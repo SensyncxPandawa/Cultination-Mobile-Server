@@ -6,12 +6,10 @@ from app.database import get_db
 
 router = APIRouter()
 
-# CREATE ALL USER DATA TABLE (NOT ONLY AUTH)
 @router.post(
     "/users/register",
     response_model=DisplayUsersAuth,
     tags=["Users' Auth"],
-    summary="REGISTERING NEW USER",
 )
 def create_user(user_auth: UsersAuth, db: Session = Depends(get_db)):
     """
@@ -25,12 +23,10 @@ def create_user(user_auth: UsersAuth, db: Session = Depends(get_db)):
     """
     return services.create_user(db, user_auth)
 
-# VALIDATE LOGIN REQUEST
 @router.post(
     "/users/login",
     response_model=DisplayUsersValidationAuth,
     tags=["Users' Auth"],
-    summary="LOGGING IN USER",
 )
 def validate_user_auth(user_validation_auth: UsersValidationAuth, db: Session = Depends(get_db)):
     """
@@ -42,12 +38,10 @@ def validate_user_auth(user_validation_auth: UsersValidationAuth, db: Session = 
     """
     return services.validate_user_auth(db, user_validation_auth)
 
-# DISPLAY USER AUTHENTIFICATION DATA
 @router.get(
     "/users/{user_id}",
     response_model=DisplayUsersAuth,
     tags=["Users' Auth"],
-    summary="DISPLAY USER AUTHENTIFICATION DATA",
 )
 def display_existing_user_auth(user_id: int, db: Session = Depends(get_db)):
     """
@@ -57,12 +51,10 @@ def display_existing_user_auth(user_id: int, db: Session = Depends(get_db)):
     """
     return services.display_existing_user_auth(db, user_id)
 
-# EDIT USER AUTHENTIFICATION DATA (IT CAN ALSO EDIT INDIVIDUAL ATTRIBUTE)
 @router.put(
     "/users/{user_id}",
     response_model=DisplayUsersAuth,
     tags=["Users' Auth"],
-    summary="EDIT USER AUTHENTIFICATION DATA",
 )
 def update_user_auth_by_id(user_id: int, updated_user_auth: UsersAuth, db: Session = Depends(get_db)):
     """
@@ -73,12 +65,10 @@ def update_user_auth_by_id(user_id: int, updated_user_auth: UsersAuth, db: Sessi
     """
     return services.update_user_auth_by_id(db, user_id, updated_user_auth)
 
-# DELETE ALL USER DATA
 @router.delete(
     "/users/{user_id}",
     response_model=None,
     tags=["Users' Auth"],
-    summary="DELETE ALL USER DATA",
 )
 def delete_user_by_id(user_id: int, db: Session = Depends(get_db)):
     """

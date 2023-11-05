@@ -4,108 +4,118 @@ from sqlalchemy.orm import Session
 from app import models
 from .schemas import UsersPrimaryAddress, UsersPondsAddress
 
-# CREATE POND ADDRESS AND SET TO PRIMARY IF THERE IS NO PRIMARY ADDRESS
 def create_pond_address(db: Session, user_id: int, user_pond_address: UsersPondsAddress):
+    # The function fetches a user's data using the user_id.
     user_exist = db.query(models.UsersAuth).filter_by(user_id=user_id).first()
+
+    # If no user is found, a 404 error is raised.
     if user_exist is None:
         raise HTTPException(status_code=404, detail="User not found")
 
-    latest_pond_address_id = db.query(func.max(models.UsersPondsAddress.pond_address_id)).scalar() or 0
-    new_pond_address_id = latest_pond_address_id + 1
-
-    user_pond = models.UsersPondsAddress(user_id=user_id, pond_address_id=new_pond_address_id, **user_pond_address.dict())
-    db.add(user_pond)
-
-    # Check if the user already has a primary address with a pond_address
+    # It then check if the user has a primary address
     primary_address = db.query(models.UsersPrimaryAddress).filter_by(user_id=user_id).first()
+
+    # If no primary address is found, a 404 error is raised.
     if primary_address is None:
         raise HTTPException(status_code=404, detail="User's primary address not found")
 
+    # It then proceed to generate new_pond_address_id 
+    latest_pond_address_id = db.query(func.max(models.UsersPondsAddress.pond_address_id)).scalar() or 0
+    new_pond_address_id = latest_pond_address_id + 1
+    
+    # It then fills the UsersPondsAdress table with the new_pond_address_id and the provided attributes and values.    
+    user_pond = models.UsersPondsAddress(
+        user_id=user_id,
+        pond_address_id=new_pond_address_id,
+        **user_pond_address.dict()
+    )
+    db.add(user_pond)
+
+    # It then updates the primary address with the new_pond_address_id.
     primary_address.pond_address_id = new_pond_address_id
 
     db.commit()
-
     return user_pond
 
-# DISPLAY USER PRIMARY ADDRESS
 def display_existing_user_primary_address(db: Session, user_id: int):
+    # The function fetches a user's primary address data using a given user_id.
     primary_address = db.query(models.UsersPrimaryAddress).filter_by(user_id=user_id).first()
+
+    # If no primary address is found, a 404 error is raised.
     if primary_address is None:
         raise HTTPException(status_code=404, detail="User's primary address not found")
 
     return primary_address
 
-# DISPLAY ALL USER POND ADDRESSES (TODO: LIST RESPONSE)
 def display_all_existing_user_pond_address(db: Session, user_id: int):
+    # The function fetches all user's pond addresses data using a given user_id.
     pond_addresses = db.query(models.UsersPondsAddress).filter_by(user_id=user_id)
+
+    # If no pond addresses are found, a 404 error is raised.
     if pond_addresses is None:
-        raise HTTPException(status_code=404, detail="User's pond not found")
+        raise HTTPException(status_code=404, detail="User's pond addresses not found")
 
     return pond_addresses
 
-# DISPLAY CERTAIN USER POND ADDRESS
 def display_certain_existing_user_pond_address(db: Session, user_id: int, pond_address_id: int):
+    # The function fetches a user's pond address data using a given user_id and pond_address_id.
     pond_address = db.query(models.UsersPondsAddress).filter(
         models.UsersPondsAddress.user_id == user_id,
         models.UsersPondsAddress.pond_address_id == pond_address_id
     ).first()
 
+    # If no pond address is found, a 404 error is raised.
     if pond_address is None:
-        raise HTTPException(status_code=404, detail="Pond not found")
+        raise HTTPException(status_code=404, detail="User's pond address not found")
 
     return pond_address
 
-# SET PRIMARY ADDRESS
 def update_user_primary_address_by_user_id(db: Session, user_id: int, updated_user_primary_address: UsersPrimaryAddress):
+    # The function fetches a user's primary address data using a given user_id.
     primary_address = db.query(models.UsersPrimaryAddress).filter_by(user_id=user_id).first()
 
+    # If no primary address is found, it raises a 404 error.
     if primary_address is None:
         raise HTTPException(status_code=404, detail="User's primary address not found")
 
+    # If a primary address is found, the code updates only the provided attribute(s) and value(s).
     primary_address.pond_address_id = updated_user_primary_address.pond_address_id
 
-    # Commit changes to the database
     db.commit()
-
     return primary_address
 
-# UPDATE USER POND ADDRESS
 def update_user_pond_address_by_pond_id(db: Session, user_id: int, pond_address_id: int, updated_user_pond_address: UsersPondsAddress):
+    # The function fetches a user's pond address data using a given user_id and pond_address_id.
     pond_address = db.query(models.UsersPondsAddress).filter(
         models.UsersPondsAddress.user_id == user_id,
         models.UsersPondsAddress.pond_address_id == pond_address_id
     ).first()
 
+    # If no pond address is found, it raises a 404 error.
     if pond_address is None:
-        raise HTTPException(status_code=404, detail="User's primary address not found")
+        raise HTTPException(status_code=404, detail="User's pond address not found")
 
-    # Update only the provided fields from updated_user_pond_address
-    if hasattr(updated_user_pond_address, 'user_address_full'):
-        pond_address.user_address_full = updated_user_pond_address.user_address_full
-    if hasattr(updated_user_pond_address, 'user_address_province'):
-        pond_address.user_address_province = updated_user_pond_address.user_address_province
-    if hasattr(updated_user_pond_address, 'user_address_city'):
-        pond_address.user_address_city = updated_user_pond_address.user_address_city
-    if hasattr(updated_user_pond_address, 'user_address_subdistrict'):
-        pond_address.user_address_subdistrict = updated_user_pond_address.user_address_subdistrict
-    if hasattr(updated_user_pond_address, 'user_address_zipcode'):
-        pond_address.user_address_zipcode = updated_user_pond_address.user_address_zipcode
-    if hasattr(updated_user_pond_address, 'user_address_coordinates'):
-        pond_address.user_address_coordinates = updated_user_pond_address.user_address_coordinates
+    # If a pond address is found, the code updates only the provided attribute(s) and value(s).
+    for attr, value in updated_user_pond_address.dict().items():
+        if attr != "user_id" and attr != "pond_address_id" and hasattr(pond_address, attr) and value is not None:
+            setattr(pond_address, attr, value)
 
-    # Commit changes to the database
     db.commit()
-
     return pond_address
 
-# DELETE USER POND ADDRESS
 def delete_user_pond_address_by_pond_id(db: Session, user_id: int, pond_address_id: int):
-    # Delete related data from other tables based on user_id
-    db.query(models.UsersPondsAddress).filter(
+    # The function fetches a user's pond address data using a given user_id and pond_address_id.
+    pond_address = db.query(models.UsersPondsAddress).filter(
         models.UsersPondsAddress.user_id == user_id,
         models.UsersPondsAddress.pond_address_id == pond_address_id
-    ).delete()
+    )
+    
+    # If no pond address is found, it raises a 404 error.
+    if pond_address is None:
+        raise HTTPException(status_code=404, detail="User's pond address not found")
+    
+    # If a pond address is found, delete related data.
+    pond_address.delete()
 
     db.commit()
-
-    return {"message": "User data and related records deleted successfully"}
+    return {"message": "User's pond address deleted successfully"}
