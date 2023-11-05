@@ -51,9 +51,14 @@ def update_existing_user_ponds_by_pond_id(db: Session, user_id: int, pond_id: in
     if user_ponds is None:
         raise HTTPException(status_code=404, detail="User's pond not found")
 
+    # Update the user's data based on the provided input
+    for attr, value in updated_user_ponds.dict().items():
+        if attr != "user_id" and attr != "pond_id" and hasattr(user_ponds, attr) and value is not None:
+            setattr(user_ponds, attr, value)
+            
     # Update only the provided fields from updated_user_ponds
-    for field in updated_user_ponds.dict():
-        setattr(user_ponds, field, updated_user_ponds.dict()[field])
+    # for field in updated_user_ponds.dict():
+        # setattr(user_ponds, field, updated_user_ponds.dict()[field])
 
     # Commit changes to the database
     db.commit()

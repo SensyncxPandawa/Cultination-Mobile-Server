@@ -15,7 +15,7 @@ class UsersAuth(BaseModel):
         extra = Extra.forbid
 
 class UsersValidationAuth(BaseModel):
-    user_phonenumber: Optional[PhoneNumber] = None
+    user_phonenumber: PhoneNumber = None
     user_email: Optional[EmailStr] = None
     user_password: constr(max_length=255)
 

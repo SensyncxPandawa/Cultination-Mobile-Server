@@ -11,7 +11,7 @@ router = APIRouter()
 @router.post(
     "/users/{user_id}/harvest_plan",
     response_model=HarvestSchema,
-    tags=["Users' Harvest Plan (DEPRECATED)"]
+    tags=["(DEPRECATED) Users' Harvest Plan"]
 )
 def create_user_harvest_plan(user_id: int, user_harvest_plan: SetHarvestSchema, db: Session = Depends(get_db)):
     return services.create_user_harvest_plan(db, user_id, user_harvest_plan)
@@ -20,7 +20,7 @@ def create_user_harvest_plan(user_id: int, user_harvest_plan: SetHarvestSchema, 
 @router.get(
     "/users/{user_id}/harvest_plan",
     response_model=List[HarvestSchema],
-    tags=["Users' Harvest Plan (DEPRECATED)"]
+    tags=["(DEPRECATED) Users' Harvest Plan"]
 )
 def display_all_existing_user_harvest_plan(user_id: int, db: Session = Depends(get_db)):
     return services.display_all_existing_user_harvest_plan(db, user_id)
@@ -29,7 +29,7 @@ def display_all_existing_user_harvest_plan(user_id: int, db: Session = Depends(g
 @router.put(
     "/users/{user_id}/harvest_plan/{harvest_plan_id}",
     response_model=HarvestSchema,
-    tags=["Users' Harvest Plan (DEPRECATED)"]
+    tags=["(DEPRECATED) Users' Harvest Plan"]
 )
 def update_existing_user_harvest_plan_by_harvest_plan_id(user_id: int, harvest_plan_id: int, updated_user_harvest_plan: SetHarvestSchema, db: Session = Depends(get_db)):
     return services.update_existing_user_harvest_plan_by_harvest_plan_id(db, user_id, harvest_plan_id, updated_user_harvest_plan)
@@ -38,7 +38,7 @@ def update_existing_user_harvest_plan_by_harvest_plan_id(user_id: int, harvest_p
 @router.delete(
     "/users/{user_id}/harvest_plan/{harvest_plan_id}",
     response_model=None,
-    tags=["Users' Harvest Plan (DEPRECATED)"]
+    tags=["(DEPRECATED) Users' Harvest Plan"]
 )
 def delete_user_harvest_plan_by_harvest_plan_id(user_id: int, harvest_plan_id: int, db: Session = Depends(get_db)):
     return services.delete_user_harvest_plan_by_harvest_plan_id(db, user_id, harvest_plan_id)

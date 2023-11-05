@@ -23,7 +23,7 @@ class UsersAuth(Base):
 class Users2FA(Base):
     __tablename__ = 'users_2fa'
     user_id = Column(Integer, ForeignKey('users_auth.user_id'), primary_key=True, index=True)
-    ota_code = Column(Integer)
+    otp_code = Column(Integer)
 
     users_auth = relationship('UsersAuth', back_populates='users_2fa')
 

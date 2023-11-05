@@ -15,7 +15,7 @@ class UsersAuth(Base):
 class Users2FA(Base):
     __tablename__ = 'users_2fa'
     user_id = Column(Integer, primary_key=True)
-    ota_codes = Column(String(6))
+    otp_codes = Column(Integer)
 
 class UsersClass(Base):
     __tablename__ = 'users_class'

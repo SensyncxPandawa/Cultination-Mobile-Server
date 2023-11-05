@@ -16,8 +16,8 @@ def create_admin(app, engine):
         name = "Users 2FA"
         name_plural = "Users 2FAs"
         icon = "fa fa-key"
-        column_sortable_list = ['user_id', 'ota_codes']
-        column_list = ['user_id', 'ota_codes']
+        column_sortable_list = ['user_id', 'otp_code']
+        column_list = ['user_id', 'otp_code']
 
     class UsersClassAdmin(ModelView, model=UsersClass):
         name = "Users Class"
