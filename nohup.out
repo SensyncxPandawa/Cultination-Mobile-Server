@@ -1,0 +1,414 @@
+
+Error: No application module specified.
+[2023-11-06 03:38:21 +0000] [710599] [INFO] Starting gunicorn 21.2.0
+[2023-11-06 03:38:21 +0000] [710599] [INFO] Listening at: http://0.0.0.0:9000 (710599)
+[2023-11-06 03:38:21 +0000] [710599] [INFO] Using worker: uvicorn.workers.UvicornWorker
+[2023-11-06 03:38:21 +0000] [710601] [INFO] Booting worker with pid: 710601
+[2023-11-06 03:38:21 +0000] [710602] [INFO] Booting worker with pid: 710602
+[2023-11-06 03:38:21 +0000] [710603] [INFO] Booting worker with pid: 710603
+[2023-11-06 03:38:21 +0000] [710604] [INFO] Booting worker with pid: 710604
+[2023-11-06 03:38:21 +0000] [710605] [INFO] Booting worker with pid: 710605
+[2023-11-06 03:38:23 +0000] [710602] [INFO] Started server process [710602]
+[2023-11-06 03:38:23 +0000] [710602] [INFO] Waiting for application startup.
+[2023-11-06 03:38:23 +0000] [710602] [INFO] Application startup complete.
+[2023-11-06 03:38:23 +0000] [710603] [INFO] Started server process [710603]
+[2023-11-06 03:38:23 +0000] [710603] [INFO] Waiting for application startup.
+[2023-11-06 03:38:23 +0000] [710603] [INFO] Application startup complete.
+[2023-11-06 03:38:23 +0000] [710604] [INFO] Started server process [710604]
+[2023-11-06 03:38:23 +0000] [710604] [INFO] Waiting for application startup.
+[2023-11-06 03:38:23 +0000] [710604] [INFO] Application startup complete.
+[2023-11-06 03:38:24 +0000] [710605] [INFO] Started server process [710605]
+[2023-11-06 03:38:24 +0000] [710605] [INFO] Waiting for application startup.
+[2023-11-06 03:38:24 +0000] [710605] [INFO] Application startup complete.
+[2023-11-06 03:38:24 +0000] [710601] [INFO] Started server process [710601]
+[2023-11-06 03:38:24 +0000] [710601] [INFO] Waiting for application startup.
+[2023-11-06 03:38:24 +0000] [710601] [INFO] Application startup complete.
+[2023-11-06 03:39:39 +0000] [710604] [ERROR] Exception in ASGI application
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/dist-packages/anyio/streams/memory.py", line 97, in receive
+    return self.receive_nowait()
+  File "/usr/local/lib/python3.10/dist-packages/anyio/streams/memory.py", line 92, in receive_nowait
+    raise WouldBlock
+anyio.WouldBlock
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/dist-packages/starlette/middleware/base.py", line 78, in call_next
+    message = await recv_stream.receive()
+  File "/usr/local/lib/python3.10/dist-packages/anyio/streams/memory.py", line 112, in receive
+    raise EndOfStream
+anyio.EndOfStream
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/dist-packages/starlette/middleware/base.py", line 108, in __call__
+    response = await self.dispatch_func(request, call_next)
+  File "/usr/local/lib/python3.10/dist-packages/api_analytics/fastapi.py", line 19, in dispatch
+    response = await call_next(request)
+  File "/usr/local/lib/python3.10/dist-packages/starlette/middleware/base.py", line 84, in call_next
+    raise app_exc
+  File "/usr/local/lib/python3.10/dist-packages/starlette/middleware/base.py", line 70, in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+  File "/usr/local/lib/python3.10/dist-packages/starlette/middleware/cors.py", line 83, in __call__
+    await self.app(scope, receive, send)
+  File "/usr/local/lib/python3.10/dist-packages/starlette/middleware/exceptions.py", line 79, in __call__
+    raise exc
+  File "/usr/local/lib/python3.10/dist-packages/starlette/middleware/exceptions.py", line 68, in __call__
+    await self.app(scope, receive, sender)
+  File "/usr/local/lib/python3.10/dist-packages/fastapi/middleware/asyncexitstack.py", line 20, in __call__
+    raise e
+  File "/usr/local/lib/python3.10/dist-packages/fastapi/middleware/asyncexitstack.py", line 17, in __call__
+    await self.app(scope, receive, send)
+  File "/usr/local/lib/python3.10/dist-packages/starlette/routing.py", line 718, in __call__
+    await route.handle(scope, receive, send)
+  File "/usr/local/lib/python3.10/dist-packages/starlette/routing.py", line 276, in handle
+    await self.app(scope, receive, send)
+  File "/usr/local/lib/python3.10/dist-packages/starlette/routing.py", line 66, in app
+    response = await func(request)
+  File "/usr/local/lib/python3.10/dist-packages/fastapi/routing.py", line 273, in app
+    raw_response = await run_endpoint_function(
+  File "/usr/local/lib/python3.10/dist-packages/fastapi/routing.py", line 192, in run_endpoint_function
+    return await run_in_threadpool(dependant.call, **values)
+  File "/usr/local/lib/python3.10/dist-packages/starlette/concurrency.py", line 41, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func, *args)
+  File "/usr/local/lib/python3.10/dist-packages/anyio/to_thread.py", line 33, in run_sync
+    return await get_async_backend().run_sync_in_worker_thread(
+  File "/usr/local/lib/python3.10/dist-packages/anyio/_backends/_asyncio.py", line 2106, in run_sync_in_worker_thread
+    return await future
+  File "/usr/local/lib/python3.10/dist-packages/anyio/_backends/_asyncio.py", line 833, in run
+    result = context.run(func, *args)
+  File "/root/Cultination-Backend-V2-Trading/app/api/users_auth/router.py", line 24, in create_user
+    return services.create_user(db, user_auth)
+  File "/root/Cultination-Backend-V2-Trading/app/api/users_auth/services.py", line 16, in create_user
+    raise ValueError("User with this phone number already exists")
+ValueError: User with this phone number already exists
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/dist-packages/uvicorn/protocols/http/h11_impl.py", line 408, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+  File "/usr/local/lib/python3.10/dist-packages/uvicorn/middleware/proxy_headers.py", line 84, in __call__
+    return await self.app(scope, receive, send)
+  File "/usr/local/lib/python3.10/dist-packages/fastapi/applications.py", line 292, in __call__
+    await super().__call__(scope, receive, send)
+  File "/usr/local/lib/python3.10/dist-packages/starlette/applications.py", line 122, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/usr/local/lib/python3.10/dist-packages/starlette/middleware/errors.py", line 184, in __call__
+    raise exc
+  File "/usr/local/lib/python3.10/dist-packages/starlette/middleware/errors.py", line 162, in __call__
+    await self.app(scope, receive, _send)
+  File "/usr/local/lib/python3.10/dist-packages/starlette/middleware/base.py", line 106, in __call__
+    async with anyio.create_task_group() as task_group:
+  File "/usr/local/lib/python3.10/dist-packages/anyio/_backends/_asyncio.py", line 664, in __aexit__
+    raise BaseExceptionGroup(
+exceptiongroup.ExceptionGroup: unhandled errors in a TaskGroup (1 sub-exception)
+[2023-11-06 03:40:24 +0000] [710605] [ERROR] Exception in ASGI application
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/dist-packages/anyio/streams/memory.py", line 97, in receive
+    return self.receive_nowait()
+  File "/usr/local/lib/python3.10/dist-packages/anyio/streams/memory.py", line 92, in receive_nowait
+    raise WouldBlock
+anyio.WouldBlock
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/dist-packages/starlette/middleware/base.py", line 78, in call_next
+    message = await recv_stream.receive()
+  File "/usr/local/lib/python3.10/dist-packages/anyio/streams/memory.py", line 112, in receive
+    raise EndOfStream
+anyio.EndOfStream
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/dist-packages/starlette/middleware/base.py", line 108, in __call__
+    response = await self.dispatch_func(request, call_next)
+  File "/usr/local/lib/python3.10/dist-packages/api_analytics/fastapi.py", line 19, in dispatch
+    response = await call_next(request)
+  File "/usr/local/lib/python3.10/dist-packages/starlette/middleware/base.py", line 84, in call_next
+    raise app_exc
+  File "/usr/local/lib/python3.10/dist-packages/starlette/middleware/base.py", line 70, in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+  File "/usr/local/lib/python3.10/dist-packages/starlette/middleware/cors.py", line 91, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "/usr/local/lib/python3.10/dist-packages/starlette/middleware/cors.py", line 146, in simple_response
+    await self.app(scope, receive, send)
+  File "/usr/local/lib/python3.10/dist-packages/starlette/middleware/exceptions.py", line 79, in __call__
+    raise exc
+  File "/usr/local/lib/python3.10/dist-packages/starlette/middleware/exceptions.py", line 68, in __call__
+    await self.app(scope, receive, sender)
+  File "/usr/local/lib/python3.10/dist-packages/fastapi/middleware/asyncexitstack.py", line 20, in __call__
+    raise e
+  File "/usr/local/lib/python3.10/dist-packages/fastapi/middleware/asyncexitstack.py", line 17, in __call__
+    await self.app(scope, receive, send)
+  File "/usr/local/lib/python3.10/dist-packages/starlette/routing.py", line 718, in __call__
+    await route.handle(scope, receive, send)
+  File "/usr/local/lib/python3.10/dist-packages/starlette/routing.py", line 276, in handle
+    await self.app(scope, receive, send)
+  File "/usr/local/lib/python3.10/dist-packages/starlette/routing.py", line 66, in app
+    response = await func(request)
+  File "/usr/local/lib/python3.10/dist-packages/fastapi/routing.py", line 273, in app
+    raw_response = await run_endpoint_function(
+  File "/usr/local/lib/python3.10/dist-packages/fastapi/routing.py", line 192, in run_endpoint_function
+    return await run_in_threadpool(dependant.call, **values)
+  File "/usr/local/lib/python3.10/dist-packages/starlette/concurrency.py", line 41, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func, *args)
+  File "/usr/local/lib/python3.10/dist-packages/anyio/to_thread.py", line 33, in run_sync
+    return await get_async_backend().run_sync_in_worker_thread(
+  File "/usr/local/lib/python3.10/dist-packages/anyio/_backends/_asyncio.py", line 2106, in run_sync_in_worker_thread
+    return await future
+  File "/usr/local/lib/python3.10/dist-packages/anyio/_backends/_asyncio.py", line 833, in run
+    result = context.run(func, *args)
+  File "/root/Cultination-Backend-V2-Trading/app/api/users_auth/router.py", line 24, in create_user
+    return services.create_user(db, user_auth)
+  File "/root/Cultination-Backend-V2-Trading/app/api/users_auth/services.py", line 16, in create_user
+    raise ValueError("User with this phone number already exists")
+ValueError: User with this phone number already exists
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/dist-packages/uvicorn/protocols/http/h11_impl.py", line 408, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+  File "/usr/local/lib/python3.10/dist-packages/uvicorn/middleware/proxy_headers.py", line 84, in __call__
+    return await self.app(scope, receive, send)
+  File "/usr/local/lib/python3.10/dist-packages/fastapi/applications.py", line 292, in __call__
+    await super().__call__(scope, receive, send)
+  File "/usr/local/lib/python3.10/dist-packages/starlette/applications.py", line 122, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/usr/local/lib/python3.10/dist-packages/starlette/middleware/errors.py", line 184, in __call__
+    raise exc
+  File "/usr/local/lib/python3.10/dist-packages/starlette/middleware/errors.py", line 162, in __call__
+    await self.app(scope, receive, _send)
+  File "/usr/local/lib/python3.10/dist-packages/starlette/middleware/base.py", line 106, in __call__
+    async with anyio.create_task_group() as task_group:
+  File "/usr/local/lib/python3.10/dist-packages/anyio/_backends/_asyncio.py", line 664, in __aexit__
+    raise BaseExceptionGroup(
+exceptiongroup.ExceptionGroup: unhandled errors in a TaskGroup (1 sub-exception)
+[2023-11-06 03:40:56 +0000] [710599] [INFO] Handling signal: int
+[2023-11-06 03:40:56 +0000] [710603] [INFO] Shutting down
+[2023-11-06 03:40:56 +0000] [710604] [INFO] Shutting down
+[2023-11-06 03:40:56 +0000] [710605] [INFO] Shutting down
+[2023-11-06 03:40:56 +0000] [710601] [INFO] Shutting down
+[2023-11-06 03:40:56 +0000] [710602] [INFO] Shutting down
+[2023-11-06 03:40:56 +0000] [710603] [INFO] Waiting for application shutdown.
+[2023-11-06 03:40:56 +0000] [710604] [INFO] Waiting for application shutdown.
+[2023-11-06 03:40:56 +0000] [710603] [INFO] Application shutdown complete.
+[2023-11-06 03:40:56 +0000] [710604] [INFO] Application shutdown complete.
+[2023-11-06 03:40:56 +0000] [710603] [INFO] Finished server process [710603]
+[2023-11-06 03:40:56 +0000] [710604] [INFO] Finished server process [710604]
+[2023-11-06 03:40:56 +0000] [710603] [INFO] Worker exiting (pid: 710603)
+[2023-11-06 03:40:56 +0000] [710604] [INFO] Worker exiting (pid: 710604)
+[2023-11-06 03:40:56 +0000] [710605] [INFO] Waiting for application shutdown.
+[2023-11-06 03:40:56 +0000] [710605] [INFO] Application shutdown complete.
+[2023-11-06 03:40:56 +0000] [710605] [INFO] Finished server process [710605]
+[2023-11-06 03:40:56 +0000] [710605] [INFO] Worker exiting (pid: 710605)
+[2023-11-06 03:40:56 +0000] [710601] [INFO] Waiting for application shutdown.
+[2023-11-06 03:40:56 +0000] [710601] [INFO] Application shutdown complete.
+[2023-11-06 03:40:56 +0000] [710601] [INFO] Finished server process [710601]
+[2023-11-06 03:40:56 +0000] [710601] [INFO] Worker exiting (pid: 710601)
+[2023-11-06 03:40:56 +0000] [710602] [INFO] Waiting for application shutdown.
+[2023-11-06 03:40:56 +0000] [710602] [INFO] Application shutdown complete.
+[2023-11-06 03:40:56 +0000] [710602] [INFO] Finished server process [710602]
+[2023-11-06 03:40:56 +0000] [710602] [INFO] Worker exiting (pid: 710602)
+[2023-11-06 03:40:56 +0000] [710599] [INFO] Shutting down: Master
+[2023-11-06 03:42:07 +0000] [711571] [INFO] Starting gunicorn 21.2.0
+[2023-11-06 03:42:07 +0000] [711571] [INFO] Listening at: http://0.0.0.0:9000 (711571)
+[2023-11-06 03:42:07 +0000] [711571] [INFO] Using worker: uvicorn.workers.UvicornWorker
+[2023-11-06 03:42:07 +0000] [711573] [INFO] Booting worker with pid: 711573
+[2023-11-06 03:42:07 +0000] [711574] [INFO] Booting worker with pid: 711574
+[2023-11-06 03:42:07 +0000] [711575] [INFO] Booting worker with pid: 711575
+[2023-11-06 03:42:07 +0000] [711576] [INFO] Booting worker with pid: 711576
+[2023-11-06 03:42:07 +0000] [711577] [INFO] Booting worker with pid: 711577
+[2023-11-06 03:42:09 +0000] [711573] [INFO] Started server process [711573]
+[2023-11-06 03:42:09 +0000] [711573] [INFO] Waiting for application startup.
+[2023-11-06 03:42:09 +0000] [711573] [INFO] Application startup complete.
+[2023-11-06 03:42:10 +0000] [711575] [INFO] Started server process [711575]
+[2023-11-06 03:42:10 +0000] [711575] [INFO] Waiting for application startup.
+[2023-11-06 03:42:10 +0000] [711575] [INFO] Application startup complete.
+[2023-11-06 03:42:10 +0000] [711576] [INFO] Started server process [711576]
+[2023-11-06 03:42:10 +0000] [711576] [INFO] Waiting for application startup.
+[2023-11-06 03:42:10 +0000] [711576] [INFO] Application startup complete.
+[2023-11-06 03:42:10 +0000] [711574] [INFO] Started server process [711574]
+[2023-11-06 03:42:10 +0000] [711574] [INFO] Waiting for application startup.
+[2023-11-06 03:42:10 +0000] [711574] [INFO] Application startup complete.
+[2023-11-06 03:42:10 +0000] [711577] [INFO] Started server process [711577]
+[2023-11-06 03:42:10 +0000] [711577] [INFO] Waiting for application startup.
+[2023-11-06 03:42:10 +0000] [711577] [INFO] Application startup complete.
+[2023-11-06 03:42:16 +0000] [711574] [ERROR] Exception in ASGI application
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/dist-packages/anyio/streams/memory.py", line 97, in receive
+    return self.receive_nowait()
+  File "/usr/local/lib/python3.10/dist-packages/anyio/streams/memory.py", line 92, in receive_nowait
+    raise WouldBlock
+anyio.WouldBlock
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/dist-packages/starlette/middleware/base.py", line 78, in call_next
+    message = await recv_stream.receive()
+  File "/usr/local/lib/python3.10/dist-packages/anyio/streams/memory.py", line 112, in receive
+    raise EndOfStream
+anyio.EndOfStream
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/dist-packages/starlette/middleware/base.py", line 108, in __call__
+    response = await self.dispatch_func(request, call_next)
+  File "/usr/local/lib/python3.10/dist-packages/api_analytics/fastapi.py", line 19, in dispatch
+    response = await call_next(request)
+  File "/usr/local/lib/python3.10/dist-packages/starlette/middleware/base.py", line 84, in call_next
+    raise app_exc
+  File "/usr/local/lib/python3.10/dist-packages/starlette/middleware/base.py", line 70, in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+  File "/usr/local/lib/python3.10/dist-packages/starlette/middleware/cors.py", line 91, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "/usr/local/lib/python3.10/dist-packages/starlette/middleware/cors.py", line 146, in simple_response
+    await self.app(scope, receive, send)
+  File "/usr/local/lib/python3.10/dist-packages/starlette/middleware/exceptions.py", line 79, in __call__
+    raise exc
+  File "/usr/local/lib/python3.10/dist-packages/starlette/middleware/exceptions.py", line 68, in __call__
+    await self.app(scope, receive, sender)
+  File "/usr/local/lib/python3.10/dist-packages/fastapi/middleware/asyncexitstack.py", line 20, in __call__
+    raise e
+  File "/usr/local/lib/python3.10/dist-packages/fastapi/middleware/asyncexitstack.py", line 17, in __call__
+    await self.app(scope, receive, send)
+  File "/usr/local/lib/python3.10/dist-packages/starlette/routing.py", line 718, in __call__
+    await route.handle(scope, receive, send)
+  File "/usr/local/lib/python3.10/dist-packages/starlette/routing.py", line 276, in handle
+    await self.app(scope, receive, send)
+  File "/usr/local/lib/python3.10/dist-packages/starlette/routing.py", line 66, in app
+    response = await func(request)
+  File "/usr/local/lib/python3.10/dist-packages/fastapi/routing.py", line 273, in app
+    raw_response = await run_endpoint_function(
+  File "/usr/local/lib/python3.10/dist-packages/fastapi/routing.py", line 192, in run_endpoint_function
+    return await run_in_threadpool(dependant.call, **values)
+  File "/usr/local/lib/python3.10/dist-packages/starlette/concurrency.py", line 41, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func, *args)
+  File "/usr/local/lib/python3.10/dist-packages/anyio/to_thread.py", line 33, in run_sync
+    return await get_async_backend().run_sync_in_worker_thread(
+  File "/usr/local/lib/python3.10/dist-packages/anyio/_backends/_asyncio.py", line 2106, in run_sync_in_worker_thread
+    return await future
+  File "/usr/local/lib/python3.10/dist-packages/anyio/_backends/_asyncio.py", line 833, in run
+    result = context.run(func, *args)
+  File "/root/Cultination-Backend-V2-Trading/app/api/users_auth/router.py", line 24, in create_user
+    return services.create_user(db, user_auth)
+  File "/root/Cultination-Backend-V2-Trading/app/api/users_auth/services.py", line 16, in create_user
+    raise ValueError("User with this phone number already exists")
+ValueError: User with this phone number already exists
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/dist-packages/uvicorn/protocols/http/h11_impl.py", line 408, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+  File "/usr/local/lib/python3.10/dist-packages/uvicorn/middleware/proxy_headers.py", line 84, in __call__
+    return await self.app(scope, receive, send)
+  File "/usr/local/lib/python3.10/dist-packages/fastapi/applications.py", line 292, in __call__
+    await super().__call__(scope, receive, send)
+  File "/usr/local/lib/python3.10/dist-packages/starlette/applications.py", line 122, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/usr/local/lib/python3.10/dist-packages/starlette/middleware/errors.py", line 184, in __call__
+    raise exc
+  File "/usr/local/lib/python3.10/dist-packages/starlette/middleware/errors.py", line 162, in __call__
+    await self.app(scope, receive, _send)
+  File "/usr/local/lib/python3.10/dist-packages/starlette/middleware/base.py", line 106, in __call__
+    async with anyio.create_task_group() as task_group:
+  File "/usr/local/lib/python3.10/dist-packages/anyio/_backends/_asyncio.py", line 664, in __aexit__
+    raise BaseExceptionGroup(
+exceptiongroup.ExceptionGroup: unhandled errors in a TaskGroup (1 sub-exception)
+[2023-11-06 03:42:29 +0000] [711573] [INFO] Shutting down
+[2023-11-06 03:42:29 +0000] [711571] [INFO] Handling signal: int
+[2023-11-06 03:42:29 +0000] [711576] [INFO] Shutting down
+[2023-11-06 03:42:29 +0000] [711574] [INFO] Shutting down
+[2023-11-06 03:42:29 +0000] [711577] [INFO] Shutting down
+[2023-11-06 03:42:29 +0000] [711575] [INFO] Shutting down
+[2023-11-06 03:42:29 +0000] [711573] [INFO] Waiting for application shutdown.
+[2023-11-06 03:42:29 +0000] [711573] [INFO] Application shutdown complete.
+[2023-11-06 03:42:29 +0000] [711573] [INFO] Finished server process [711573]
+[2023-11-06 03:42:29 +0000] [711573] [INFO] Worker exiting (pid: 711573)
+[2023-11-06 03:42:29 +0000] [711576] [INFO] Waiting for application shutdown.
+[2023-11-06 03:42:29 +0000] [711576] [INFO] Application shutdown complete.
+[2023-11-06 03:42:29 +0000] [711576] [INFO] Finished server process [711576]
+[2023-11-06 03:42:29 +0000] [711576] [INFO] Worker exiting (pid: 711576)
+[2023-11-06 03:42:29 +0000] [711574] [INFO] Waiting for application shutdown.
+[2023-11-06 03:42:29 +0000] [711574] [INFO] Application shutdown complete.
+[2023-11-06 03:42:29 +0000] [711574] [INFO] Finished server process [711574]
+[2023-11-06 03:42:29 +0000] [711574] [INFO] Worker exiting (pid: 711574)
+[2023-11-06 03:42:29 +0000] [711577] [INFO] Waiting for application shutdown.
+[2023-11-06 03:42:29 +0000] [711577] [INFO] Application shutdown complete.
+[2023-11-06 03:42:29 +0000] [711577] [INFO] Finished server process [711577]
+[2023-11-06 03:42:29 +0000] [711577] [INFO] Worker exiting (pid: 711577)
+[2023-11-06 03:42:29 +0000] [711575] [INFO] Waiting for application shutdown.
+[2023-11-06 03:42:29 +0000] [711575] [INFO] Application shutdown complete.
+[2023-11-06 03:42:29 +0000] [711575] [INFO] Finished server process [711575]
+[2023-11-06 03:42:29 +0000] [711575] [INFO] Worker exiting (pid: 711575)
+[2023-11-06 03:42:30 +0000] [711571] [INFO] Shutting down: Master
+[2023-11-06 03:42:59 +0000] [711747] [INFO] Starting gunicorn 21.2.0
+[2023-11-06 03:42:59 +0000] [711747] [INFO] Listening at: http://0.0.0.0:9000 (711747)
+[2023-11-06 03:42:59 +0000] [711747] [INFO] Using worker: uvicorn.workers.UvicornWorker
+[2023-11-06 03:42:59 +0000] [711748] [INFO] Booting worker with pid: 711748
+[2023-11-06 03:42:59 +0000] [711749] [INFO] Booting worker with pid: 711749
+[2023-11-06 03:42:59 +0000] [711750] [INFO] Booting worker with pid: 711750
+[2023-11-06 03:42:59 +0000] [711751] [INFO] Booting worker with pid: 711751
+[2023-11-06 03:42:59 +0000] [711752] [INFO] Booting worker with pid: 711752
+[2023-11-06 03:43:02 +0000] [711752] [INFO] Started server process [711752]
+[2023-11-06 03:43:02 +0000] [711752] [INFO] Waiting for application startup.
+[2023-11-06 03:43:02 +0000] [711752] [INFO] Application startup complete.
+[2023-11-06 03:43:02 +0000] [711748] [INFO] Started server process [711748]
+[2023-11-06 03:43:02 +0000] [711748] [INFO] Waiting for application startup.
+[2023-11-06 03:43:02 +0000] [711748] [INFO] Application startup complete.
+[2023-11-06 03:43:02 +0000] [711749] [INFO] Started server process [711749]
+[2023-11-06 03:43:02 +0000] [711749] [INFO] Waiting for application startup.
+[2023-11-06 03:43:02 +0000] [711749] [INFO] Application startup complete.
+[2023-11-06 03:43:02 +0000] [711750] [INFO] Started server process [711750]
+[2023-11-06 03:43:02 +0000] [711750] [INFO] Waiting for application startup.
+[2023-11-06 03:43:02 +0000] [711750] [INFO] Application startup complete.
+[2023-11-06 03:43:02 +0000] [711751] [INFO] Started server process [711751]
+[2023-11-06 03:43:02 +0000] [711751] [INFO] Waiting for application startup.
+[2023-11-06 03:43:02 +0000] [711751] [INFO] Application startup complete.
+[2023-11-06 03:43:06 +0000] [711747] [INFO] Handling signal: int
+[2023-11-06 03:43:06 +0000] [711752] [INFO] Shutting down
+[2023-11-06 03:43:06 +0000] [711750] [INFO] Shutting down
+[2023-11-06 03:43:06 +0000] [711751] [INFO] Shutting down
+[2023-11-06 03:43:06 +0000] [711748] [INFO] Shutting down
+[2023-11-06 03:43:06 +0000] [711749] [INFO] Shutting down
+[2023-11-06 03:43:06 +0000] [711752] [INFO] Waiting for application shutdown.
+[2023-11-06 03:43:06 +0000] [711752] [INFO] Application shutdown complete.
+[2023-11-06 03:43:06 +0000] [711752] [INFO] Finished server process [711752]
+[2023-11-06 03:43:06 +0000] [711752] [INFO] Worker exiting (pid: 711752)
+[2023-11-06 03:43:06 +0000] [711750] [INFO] Waiting for application shutdown.
+[2023-11-06 03:43:06 +0000] [711750] [INFO] Application shutdown complete.
+[2023-11-06 03:43:06 +0000] [711750] [INFO] Finished server process [711750]
+[2023-11-06 03:43:06 +0000] [711750] [INFO] Worker exiting (pid: 711750)
+[2023-11-06 03:43:06 +0000] [711751] [INFO] Waiting for application shutdown.
+[2023-11-06 03:43:06 +0000] [711751] [INFO] Application shutdown complete.
+[2023-11-06 03:43:06 +0000] [711751] [INFO] Finished server process [711751]
+[2023-11-06 03:43:06 +0000] [711751] [INFO] Worker exiting (pid: 711751)
+[2023-11-06 03:43:06 +0000] [711748] [INFO] Waiting for application shutdown.
+[2023-11-06 03:43:06 +0000] [711748] [INFO] Application shutdown complete.
+[2023-11-06 03:43:06 +0000] [711748] [INFO] Finished server process [711748]
+[2023-11-06 03:43:06 +0000] [711748] [INFO] Worker exiting (pid: 711748)
+[2023-11-06 03:43:06 +0000] [711749] [INFO] Waiting for application shutdown.
+[2023-11-06 03:43:06 +0000] [711749] [INFO] Application shutdown complete.
+[2023-11-06 03:43:06 +0000] [711749] [INFO] Finished server process [711749]
+[2023-11-06 03:43:06 +0000] [711749] [INFO] Worker exiting (pid: 711749)
+[2023-11-06 03:43:07 +0000] [711747] [INFO] Shutting down: Master
+[2023-11-07 04:15:29 +0000] [733354] [INFO] Starting gunicorn 21.2.0
+[2023-11-07 04:15:29 +0000] [733354] [ERROR] Connection in use: ('0.0.0.0', 9000)
+[2023-11-07 04:15:29 +0000] [733354] [ERROR] Retrying in 1 second.
+[2023-11-07 04:15:30 +0000] [733354] [ERROR] Connection in use: ('0.0.0.0', 9000)
+[2023-11-07 04:15:30 +0000] [733354] [ERROR] Retrying in 1 second.
+[2023-11-07 04:15:31 +0000] [733354] [ERROR] Connection in use: ('0.0.0.0', 9000)
+[2023-11-07 04:15:31 +0000] [733354] [ERROR] Retrying in 1 second.
+[2023-11-07 04:15:32 +0000] [733354] [ERROR] Connection in use: ('0.0.0.0', 9000)
+[2023-11-07 04:15:32 +0000] [733354] [ERROR] Retrying in 1 second.
+[2023-11-07 04:15:33 +0000] [733354] [ERROR] Connection in use: ('0.0.0.0', 9000)
+[2023-11-07 04:15:33 +0000] [733354] [ERROR] Retrying in 1 second.
+[2023-11-07 04:15:34 +0000] [733354] [ERROR] Can't connect to ('0.0.0.0', 9000)

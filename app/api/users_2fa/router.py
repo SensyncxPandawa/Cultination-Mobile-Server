@@ -7,6 +7,8 @@ from app.database import get_db
 router = APIRouter()
 
 # CREATE USER 2FA
+
+
 @router.get(
     "/users/{user_id}/2fa",
     response_model=None,
@@ -23,6 +25,8 @@ def generate_and_send_otp_code(user_id: int, db: Session = Depends(get_db)):
     return services.generate_and_send_otp_code(db, user_id)
 
 # DISPLAY EXISTING OTA CODE
+
+
 @router.post(
     "/users/{user_id}/2fa",
     response_model=None,

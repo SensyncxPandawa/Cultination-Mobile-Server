@@ -1,10 +1,11 @@
-from fastapi import Depends, APIRouter
+from fastapi import Depends, APIRouter, HTTPException
 from sqlalchemy.orm import Session
 from . import services
 from .schemas import UsersAuth, UsersValidationAuth, DisplayUsersAuth, DisplayUsersValidationAuth
 from app.database import get_db
 
 router = APIRouter()
+
 
 @router.post(
     "/users/register",
@@ -23,6 +24,7 @@ def create_user(user_auth: UsersAuth, db: Session = Depends(get_db)):
     """
     return services.create_user(db, user_auth)
 
+
 @router.post(
     "/users/login",
     response_model=DisplayUsersValidationAuth,
@@ -38,6 +40,7 @@ def validate_user_auth(user_validation_auth: UsersValidationAuth, db: Session = 
     """
     return services.validate_user_auth(db, user_validation_auth)
 
+
 @router.get(
     "/users/{user_id}",
     response_model=DisplayUsersAuth,
@@ -51,6 +54,7 @@ def display_existing_user_auth(user_id: int, db: Session = Depends(get_db)):
     """
     return services.display_existing_user_auth(db, user_id)
 
+
 @router.put(
     "/users/{user_id}",
     response_model=DisplayUsersAuth,
@@ -60,10 +64,16 @@ def update_user_auth_by_id(user_id: int, updated_user_auth: UsersAuth, db: Sessi
     """
     The function fetches a user's auth data using a given user_id.
     \n If no user is found, it raises a 404 error.
-    \n If a user is found, the code updates only the provided attribute(s) and value(s).
+    \n If a user is found, it then checks if user_phonenumber is the edited attribute.
+    \n If user_phonenumber is being edited, it fetches a user's data using the user_phonenumber.
+    \n If the user already exists based on the provided user_phonenumber, a 404 error is raised.
+    \n It then check if user_password is the edited attribute.
+    \n If user_password is being edited, it converts user_password into hashed_user_password.
+    \n It then updates only the provided attribute(s) and value(s).
     \n The function returns the retrieved user's auth data.
     """
     return services.update_user_auth_by_id(db, user_id, updated_user_auth)
+
 
 @router.delete(
     "/users/{user_id}",
