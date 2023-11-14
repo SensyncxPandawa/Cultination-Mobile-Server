@@ -1,7 +1,8 @@
-from sqlalchemy import Column, DateTime, Date, Integer, String, ForeignKey
+from sqlalchemy import Column, DateTime, Date, Integer, String, ForeignKey, Float
 from sqlalchemy.orm import declarative_base, relationship
 
 Base = declarative_base()
+
 
 class UsersAuth(Base):
     __tablename__ = 'users_auth'
@@ -15,21 +16,28 @@ class UsersAuth(Base):
     users_2fa = relationship('Users2FA', back_populates='users_auth')
     users_class = relationship('UsersClass', back_populates='users_auth')
     users_market = relationship('UsersMarket', back_populates='users_auth')
-    users_ponds_address = relationship('UsersPondsAddress', back_populates='users_auth')
-    users_primary_address = relationship('UsersPrimaryAddress', back_populates='users_auth')
-    users_harvest_plan = relationship('UsersHarvestPlan', back_populates='users_auth')
+    users_ponds_address = relationship(
+        'UsersPondsAddress', back_populates='users_auth')
+    users_primary_address = relationship(
+        'UsersPrimaryAddress', back_populates='users_auth')
+    users_harvest_plan = relationship(
+        'UsersHarvestPlan', back_populates='users_auth')
     users_ponds = relationship('UsersPonds', back_populates='users_auth')
+
 
 class Users2FA(Base):
     __tablename__ = 'users_2fa'
-    user_id = Column(Integer, ForeignKey('users_auth.user_id'), primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey('users_auth.user_id'),
+                     primary_key=True, index=True)
     otp_code = Column(Integer)
 
     users_auth = relationship('UsersAuth', back_populates='users_2fa')
 
+
 class UsersClass(Base):
     __tablename__ = 'users_class'
-    user_id = Column(Integer, ForeignKey('users_auth.user_id'), primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey('users_auth.user_id'),
+                     primary_key=True, index=True)
     user_age = Column(Integer)
     user_proficiency_level = Column(String(50))
     user_pond_total = Column(String(50))
@@ -39,9 +47,11 @@ class UsersClass(Base):
 
     users_auth = relationship('UsersAuth', back_populates='users_class')
 
+
 class UsersMarket(Base):
     __tablename__ = 'users_market'
-    user_id = Column(Integer, ForeignKey('users_auth.user_id'), primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey('users_auth.user_id'),
+                     primary_key=True, index=True)
     user_production_capacity_n = Column(Integer)
     user_production_capacity_unit = Column(String(50))
     user_production_capacity_cycle = Column(String(50))
@@ -51,6 +61,7 @@ class UsersMarket(Base):
     user_market_preference = Column(String(255))
 
     users_auth = relationship('UsersAuth', back_populates='users_market')
+
 
 class UsersPondsAddress(Base):
     __tablename__ = 'users_ponds_address'
@@ -63,16 +74,24 @@ class UsersPondsAddress(Base):
     user_address_zipcode = Column(String(20))
     user_address_coordinates = Column(String(100))
 
-    users_auth = relationship('UsersAuth', back_populates='users_ponds_address')
-    users_primary_address = relationship('UsersPrimaryAddress', back_populates='users_ponds_address')
+    users_auth = relationship(
+        'UsersAuth', back_populates='users_ponds_address')
+    users_primary_address = relationship(
+        'UsersPrimaryAddress', back_populates='users_ponds_address')
+
 
 class UsersPrimaryAddress(Base):
     __tablename__ = 'users_primary_address'
-    user_id = Column(Integer, ForeignKey('users_auth.user_id'), primary_key=True)
-    pond_address_id = Column(Integer, ForeignKey('users_ponds_address.pond_address_id'))
+    user_id = Column(Integer, ForeignKey(
+        'users_auth.user_id'), primary_key=True)
+    pond_address_id = Column(Integer, ForeignKey(
+        'users_ponds_address.pond_address_id'))
 
-    users_auth = relationship('UsersAuth', back_populates='users_primary_address')
-    users_ponds_address = relationship('UsersPondsAddress', back_populates='users_primary_address')
+    users_auth = relationship(
+        'UsersAuth', back_populates='users_primary_address')
+    users_ponds_address = relationship(
+        'UsersPondsAddress', back_populates='users_primary_address')
+
 
 class UsersHarvestPlan(Base):
     __tablename__ = 'users_harvest_plan'
@@ -91,8 +110,9 @@ class UsersHarvestPlan(Base):
     harvest_plan_target_capacity = Column(String(255))
     harvest_plan_target_size = Column(String(255))
     harvest_plan_total_fish = Column(String(255))
-    
+
     users_auth = relationship('UsersAuth', back_populates='users_harvest_plan')
+
 
 class UsersPonds(Base):
     __tablename__ = 'users_ponds'
@@ -105,8 +125,9 @@ class UsersPonds(Base):
     user_ponds_pond_diameter = Column(Integer)
     user_ponds_pond_density = Column(String(255))
     user_ponds_target_size = Column(String(255))
-    
+
     users_auth = relationship('UsersAuth', back_populates='users_ponds')
+
 
 class CommunityCache(Base):
     __tablename__ = 'community_cache'
@@ -118,3 +139,14 @@ class CommunityCache(Base):
     community_fish_type = Column(String(255))
     community_production_total = Column(Integer)
     community_user_total = Column(Integer)
+
+
+class KolamData(Base):
+    __tablename__ = "kolam_data"
+
+    id = Column(Integer, primary_key=True,)
+    id_kolam = Column(String, index=True)
+    airflow = Column(Float)
+    ph = Column(Float)
+    tds = Column(Integer)
+    temperature = Column(Float)

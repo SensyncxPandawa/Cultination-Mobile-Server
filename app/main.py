@@ -14,6 +14,7 @@ from app.api.users_ponds.router import router as users_ponds_router
 from app.api.users_address.router import router as users_address_router
 from app.api.harvest_plan.router import router as harvest_plan_router
 from app.api.community_cache.router import router as community_cache_router
+from app.api.kolam_data.router import router as kolam_data_router
 # from app.api.enum.router import router as enum_router
 
 from .database import get_db, engine
@@ -22,6 +23,7 @@ from .admin.sqladmin import create_admin
 description = """
 Cultination Mobile App Server is a component of a larger system designed to provide services for aquaculture farmers. This API server provides a way to interact with the system programmatically.
 """
+
 
 def create_app():
     app = FastAPI(
@@ -45,7 +47,8 @@ def create_app():
     )
 
     # Enable API Analytics
-    app.add_middleware(Analytics, api_key="1de3e66a-7bc3-4053-80c7-dc1d6afc2577")
+    app.add_middleware(
+        Analytics, api_key="1de3e66a-7bc3-4053-80c7-dc1d6afc2577")
 
     app.include_router(users_auth_router)
     app.include_router(users_2fa_router)
@@ -55,13 +58,16 @@ def create_app():
     app.include_router(harvest_plan_router)
     app.include_router(users_ponds_router)
     app.include_router(community_cache_router)
+    app.include_router(kolam_data_router)
     # app.include_router(enum_router)
 
     create_admin(app, engine)
 
     return app
 
+
 app = create_app()
+
 
 @app.get("/", tags=["Debug"], include_in_schema=False)
 async def check_db_and_go_to_admin(db: Session = Depends(get_db)):

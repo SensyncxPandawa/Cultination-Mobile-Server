@@ -35,6 +35,7 @@ metadata.reflect(bind=engine, only=[
     "users_ponds",
     "users_ponds_address",
     "users_primary_address",
+    "kolam_data",
 ])
 
 # Create the tables
