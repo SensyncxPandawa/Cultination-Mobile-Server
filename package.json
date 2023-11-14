@@ -1,5 +1,5 @@
 {
-  "name": "cultination-app-server",
+  "name": "cultination-mobile-server",
   "version": "0.1.0",
   "description": "Cultination Mobile App Server is a component of a larger system designed to provide services for aquaculture farmers. This API server provides a way to interact with the system programmatically.",
   "scripts": {
