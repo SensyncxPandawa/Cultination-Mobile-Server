@@ -6,6 +6,7 @@
     "windows-start": "uvicorn app.main:app --port 9000 --reload",
     "check-all-gunicorn": "ps aux | grep gunicorn",
     "check-this-gunicorn": "ps aux | grep gunicorn.*:9000",
+    "kill-all-gunicorn": "pkill gunicorn",
     "kill-gunicorn": "pkill -f gunicorn.*:9000",
     "deploy": "nohup gunicorn -w 1 -k uvicorn.workers.UvicornWorker -b 0.0.0.0:9000 app.main:app --reload > app.log 2>&1 &"
   },
