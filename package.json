@@ -3,11 +3,11 @@
   "version": "0.1.0",
   "description": "Cultination Mobile App Server is a component of a larger system designed to provide services for aquaculture farmers. This API server provides a way to interact with the system programmatically.",
   "scripts": {
-    "start": "uvicorn app.main:app --reload",
-    "start:prod": "gunicorn --workers 1 --worker-class uvicorn.workers.UvicornWorker --bind :9000 app.main:app",
-    "live": "gunicorn -w 4 -k uvicorn.workers.UvicornWorker -b 0.0.0.0:9000 app.main:app --reload &",
-    "live2": "nohup gunicorn -w 2 -k uvicorn.workers.UvicornWorker -b 0.0.0.0:9000 app.main:app --reload > app.log 2>&1 &",
-    "test": "pytest"
+    "windows-start": "uvicorn app.main:app --port 9000 --reload",
+    "check-all-gunicorn": "ps aux | grep gunicorn",
+    "check-this-gunicorn": "ps aux | grep gunicorn.*:9000",
+    "kill-gunicorn": "pkill -f gunicorn.*:9000",
+    "deploy": "nohup gunicorn -w 1 -k uvicorn.workers.UvicornWorker -b 0.0.0.0:9000 app.main:app --reload > app.log 2>&1 &"
   },
   "keywords": [
     "FastAPI",
